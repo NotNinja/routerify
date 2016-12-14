@@ -1,0 +1,41 @@
+{
+  "name": "routerify",
+  "version": "0.1.0",
+  "description": "Opinionated router loader for Express-like applications",
+  "homepage": "https://github.com/Skelp/routerify",
+  "bugs": {
+    "url": "https://github.com/Skelp/routerify/issues"
+  },
+  "author": {
+    "name": "Alasdair Mercer",
+    "email": "alasdair@skelp.io",
+    "url": "https://skelp.io"
+  },
+  "license": "MIT",
+  "keywords": [
+    "router",
+    "express",
+    "restify"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Skelp/routerify.git"
+  },
+  "dependencies": {
+    "glob": "^7.1.1",
+    "lodash.defaultsdeep": "^4.6.0",
+    "lodash.pick": "^4.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.12.1",
+    "eslint-config-skelp": "^0.1.5"
+  },
+  "main": "src/routerify.js",
+  "scripts": {
+    "test": "npm run test-lint",
+    "test-lint": "eslint src"
+  },
+  "engines": {
+    "node": ">=6"
+  }
+}
