@@ -42,7 +42,20 @@ TODO: Document
 
 ### Options
 
-TODO: Document
+The following options can be passed to Routerify:
+
+| Option         | Description                                                                                                                                    | Default Value                |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| `dir`          | The directory containing the routes to be loaded.                                                                                              | `process.cwd()`              |
+| `ext`          | The extension of the source files to be loaded.                                                                                                | `".js"`                      |
+| `glob`         | Any options to be passed to the `glob` module when searching for source files within `dir`.                                                    | `{}`                         |
+| `mounter`      | The name (or constructor) of the `Mounter` to be used to mount the discovered routes on to the `server`.                                       | `"express"`                  |
+| `paramPattern` | The regular expression to be used to match path parameter variables.                                                                           | `/^_(.+)/`                   |
+| `registrar`    | The name (or constructor) of the `Registrar` used to load routes from source files in a given structure and then mount them via the `mounter`. | `"verb"`                     |
+| `server`       | The server object to which the routes are to be mounted.                                                                                       | N/A                          |
+| `verbs`        | The verbs (corresponding to HTTP methods) to be supported. Defaults to those provided by the `mounter` if not specified.                       | `mounter.getDefaultValues()` |
+
+The `server` option is the *only* one that is required.
 
 ## Bugs
 
