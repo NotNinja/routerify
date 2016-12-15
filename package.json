@@ -1,6 +1,6 @@
 {
   "name": "routerify",
-  "version": "0.1.0alpha",
+  "version": "0.1.0",
   "description": "Opinionated router loader for Express-like applications",
   "homepage": "https://github.com/Skelp/routerify",
   "bugs": {
@@ -23,8 +23,7 @@
   },
   "dependencies": {
     "glob": "^7.1.1",
-    "lodash.defaultsdeep": "^4.6.0",
-    "lodash.pick": "^4.4.0"
+    "lodash.defaultsdeep": "^4.6.0"
   },
   "devDependencies": {
     "eslint": "^3.12.1",

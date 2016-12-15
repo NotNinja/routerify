@@ -116,7 +116,7 @@ module.exports = routerify
  * @property {RegExp} [paramPattern=/^_(.+)/] - The regular expression to be used to match path parameter variables.
  * @property {string|Function} [registrar="verb"] - The name (or constructor) of the {@link Registrar} used to load
  * routes from source files in a given structure and then mount them via the <code>mounter</code>.
- * @property {Object} server - The server object to which the routes are to be mounted.
+ * @property {Object} server - The server object (e.g. <code>express()</code>) to which the routes are to be mounted.
  * @property {string[]} [verbs] - The verbs (corresponding to HTTP methods) to be supported. Defaults to those provided
  * by the <code>mounter</code> if not specified.
  */
