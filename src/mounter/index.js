@@ -23,11 +23,33 @@
 'use strict'
 
 /**
+ * The available {@link Mounter} implementation constructors mapped against their name.
+ *
+ * @private
+ * @type {Map.<string, Function>}
+ */
+const types = new Map()
+
+/**
  * Responsible for mounting a route, whose information is provided by a {@link Registrar}, onto the server.
  *
  * @public
  */
 class Mounter {
+
+  /**
+   * Defines the specified <code>type</code> of {@link Mounter} so that it can be looked up using its name.
+   *
+   * @param {Function} type - the constructor of the {@link Mounter} implementation to be defined
+   * @return {Function} A reference to <code>type</code>.
+   * @public
+   * @static
+   */
+  static define(type) {
+    types.set(type.getName(), type)
+
+    return type
+  }
 
   /**
    * Returns the name of the {@link Mounter} which can be used to lookup constructors.
@@ -37,7 +59,19 @@ class Mounter {
    * @static
    * @abstract
    */
-  static name() {
+  static getName() {
+  }
+
+  /**
+   * Looks up the type of {@link Mounter} associated with the specified <code>name</code>.
+   *
+   * @param {string} name - the name associated with the {@link Mounter} implementation to be looked up
+   * @return {Function} The constructor of the {@link Mounter} implementation associated with <code>name</code>.
+   * @public
+   * @static
+   */
+  static lookup(name) {
+    return types.get(name)
   }
 
   /**
@@ -78,3 +112,6 @@ class Mounter {
 }
 
 module.exports = Mounter
+
+require('./express-mounter')
+require('./restify-mounter')

@@ -22,44 +22,47 @@
 
 'use strict'
 
-const path = require('path')
-
-const Registrar = require('./registrar')
+const ExpressMounter = require('./express-mounter')
 
 /**
- * An implementation of {@link Registrar} where the name of the files in each directory is checked and, if it's a
- * supported verb, it's loaded as a module and the result should be one or more handlers which are then mounted against
- * that verb.
+ * An extension of {@link ExpressMounter} which provides further compatibility with Restify by reading
+ * <code>options</code> properties on route handlers and passing that to the server when mounting the route. These
+ * options can include the content type, name, and version(s).
+ *
+ * For routes with multiple handlers, only the <code>options</code> property of the first handler with that property
+ * will be used, for all handlers, and any <code>options</code> properties on other handlers will be ignored.
  *
  * @public
- * @extends Registrar
+ * @extends ExpressMounter
  */
-class VerbRegistrar extends Registrar {
+class RestifyMounter extends ExpressMounter {
 
   /**
-   * @inheritDoc
    * @override
+   * @inheritDoc
    */
-  static name() {
-    return 'verb'
+  static getName() {
+    return 'restify'
   }
 
   /**
-   * @inheritDoc
    * @override
+   * @inheritDoc
    */
-  register(file, options) {
-    const name = path.basename(file, options.ext)
-    if (!options.verbs.includes(name)) {
-      return
+  mount(url, verb, handlers, options) {
+    handlers = Array.isArray(handlers) ? handlers : [ handlers ]
+
+    const handlerWithOptions = handlers.find((handler) => handler.options != null)
+    if (handlerWithOptions) {
+      url = Object.assign({}, handlerWithOptions.options, {
+        method: verb,
+        path: url
+      })
     }
 
-    const handlers = this.loadRouter(file, options)
-    const url = this.buildUrl(file, options)
-
-    this.mounter.mount(url, name, handlers, options)
+    super.mount(url, verb, handlers, options)
   }
 
 }
 
-module.exports = VerbRegistrar
+module.exports = ExpressMounter.define(RestifyMounter)

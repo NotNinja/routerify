@@ -142,11 +142,11 @@ In order to create your own registrar you simply need to extend the `Registrar` 
 
 ``` javascript
 const routerify = require('routerify')
-const Registrar = require('routerify/src/registrar/registrar')
+const Registrar = require('routerify/src/registrar')
 
 class CustomRegistrar extends Registrar {
 
-  static name() {
+  static getName() {
     return 'custom'
   }
   
@@ -156,9 +156,7 @@ class CustomRegistrar extends Registrar {
   }
 }
 
-routerify.registrars[CustomRegistrar.name()] = CustomRegistrar
-
-module.exports = CustomRegistrar
+module.exports = Registrar.define(CustomRegistrar)
 ```
 
 Now your new registrar can be used by simply specifying its name in the options:
@@ -212,11 +210,11 @@ In order to create your own mounter you simply need to extend the `Mounter` clas
 
 ``` javascript
 const routerify = require('routerify')
-const Mounter = require('routerify/src/mounter/mounter')
+const Mounter = require('routerify/src/mounter')
 
 class CustomMounter extends Mounter {
 
-  static name() {
+  static getName() {
     return 'custom'
   }
   
@@ -236,9 +234,7 @@ class CustomMounter extends Mounter {
   }
 }
 
-routerify.mounters[CustomMounter.name()] = CustomMounter
-
-module.exports = CustomMounter
+module.exports = Mounter.define(CustomMounter)
 ```
 
 Now your new mounter can be used by simply specifying its name in the options:
@@ -283,38 +279,18 @@ app.listen(3000, () => {
 
 The following options can be passed to Routerify:
 
-| Option         | Description                                                                                                                                    | Default Value                |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
-| `dir`          | The directory containing the routes to be loaded.                                                                                              | `process.cwd()`              |
-| `ext`          | The extension of the source files to be loaded.                                                                                                | `".js"`                      |
-| `glob`         | Any options to be passed to the `glob` module when searching for source files within `dir`.                                                    | `{}`                         |
-| `mounter`      | The name (or constructor) of the `Mounter` to be used to mount the discovered routes on to the `server`.                                       | `"express"`                  |
-| `paramPattern` | The regular expression to be used to match path parameter variables.                                                                           | `/^_(.+)/`                   |
-| `registrar`    | The name (or constructor) of the `Registrar` used to load routes from source files in a given structure and then mount them via the `mounter`. | `"verb"`                     |
-| `server`       | The server object (e.g. `express()`) to which the routes are to be mounted.                                                                    | N/A                          |
-| `verbs`        | The verbs (corresponding to HTTP methods) to be supported. Defaults to those provided by the `mounter` if not specified.                       | `mounter.getDefaultValues()` |
+| Option         | Description                                                                                                                   | Default Value                |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| `dir`          | The directory containing the routes to be loaded.                                                                             | `process.cwd()`              |
+| `ext`          | The extension of the source files to be loaded.                                                                               | `".js"`                      |
+| `glob`         | Any options to be passed to the `glob` module when searching for source files within `dir`.                                   | `{}`                         |
+| `mounter`      | The name of the `Mounter` to be used to mount the discovered routes on to the `server`.                                       | `"express"`                  |
+| `paramPattern` | The regular expression to be used to match path parameter variables.                                                          | `/^_(.+)/`                   |
+| `registrar`    | The name of the `Registrar` used to load routes from source files in a given structure and then mount them via the `mounter`. | `"verb"`                     |
+| `server`       | The server object (e.g. `express()`) to which the routes are to be mounted.                                                   | N/A                          |
+| `verbs`        | The verbs (corresponding to HTTP methods) to be supported. Defaults to those provided by the `mounter` if not specified.      | `mounter.getDefaultValues()` |
 
 Only the `server` option is required. All others have defaults.
-
-### `routerify.mounters`
-
-A mapping of available [mounters](#mounters) where the key is the mounter name and the value is its constructor. This is
-primarily intended for those looking to create their own mounter and hook it into Routerify.
-
-``` javascript
-routerify.mounters
-=> { express: ExpressMounter, restify: RestifyMounter }
-```
-
-### `routerify.registrars`
-
-A mapping of available [registrars](#registrars) where the key is the registrar name and the value is its constructor.
-This is primarily intended for those looking to create their own registrar and hook it into Routerify.
-
-``` javascript
-routerify.registrars
-=> { index: IndexRegistrar, verb: VerbRegistrar }
-```
 
 ### `routerify.version`
 

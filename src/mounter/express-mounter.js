@@ -22,27 +22,50 @@
 
 'use strict'
 
-const ExpressMounter = require('./mounter/express')
-const RestifyMounter = require('./mounter/restify')
+const Mounter = require('./')
 
 /**
- * A list of available {@link Mounter} constructors.
- *
- * @private
- * @type {Function[]}
- */
-const constructors = [ ExpressMounter, RestifyMounter ]
-
-/**
- * A map of {@link Mounter} names to their constructors.
+ * An implementation of {@link Mounter} that is intended to be used for Express applications.
  *
  * @public
- * @type {Object.<string, Function>}
+ * @extends Mounter
  */
-const mounters = {}
+class ExpressMounter extends Mounter {
 
-constructors.forEach((Constructor) => {
-  mounters[Constructor.name()] = Constructor
-})
+  /**
+   * @override
+   * @inheritDoc
+   */
+  static getName() {
+    return 'express'
+  }
 
-module.exports = mounters
+  /**
+   * @override
+   * @inheritDoc
+   */
+  formatParamPath(param) {
+    return `:${param}`
+  }
+
+  /**
+   * @override
+   * @inheritDoc
+   */
+  getDefaultVerbs() {
+    return [ 'del', 'get', 'head', 'opts', 'patch', 'post', 'put' ]
+  }
+
+  /**
+   * @override
+   * @inheritDoc
+   */
+  mount(url, verb, handlers, options) {
+    handlers = Array.isArray(handlers) ? handlers : [ handlers ]
+
+    options.server[verb](url, ...handlers)
+  }
+
+}
+
+module.exports = Mounter.define(ExpressMounter)
