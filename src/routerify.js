@@ -26,8 +26,12 @@ const defaultsDeep = require('lodash.defaultsdeep')
 const glob = require('glob')
 
 const Mounter = require('./mounter')
+require('./mounter/express-mounter')
+require('./mounter/restify-mounter')
 const pkg = require('../package.json')
 const Registrar = require('./registrar')
+require('./registrar/index-registrar')
+require('./registrar/verb-registrar')
 
 /**
  * Mounts routes onto a given server by loading modules within a specific directory.

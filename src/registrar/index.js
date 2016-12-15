@@ -147,6 +147,3 @@ class Registrar {
 }
 
 module.exports = Registrar
-
-require('./index-registrar')
-require('./verb-registrar')

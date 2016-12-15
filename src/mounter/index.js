@@ -112,6 +112,3 @@ class Mounter {
 }
 
 module.exports = Mounter
-
-require('./express-mounter')
-require('./restify-mounter')
