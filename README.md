@@ -19,6 +19,7 @@
 [![Release](https://img.shields.io/npm/v/routerify.svg?style=flat-square)](https://www.npmjs.com/package/routerify)
 
 * [Install](#install)
+* [Configurations](#configurations)
 * [API](#api)
 * [Bugs](#bugs)
 * [Contributors](#contributors)
@@ -32,7 +33,7 @@ $ npm install --save routerify
 
 You'll need to have at least [Node.js](https://nodejs.org) 6 or newer.
 
-## Modes
+## Configurations
 
 TODO: Document
 
