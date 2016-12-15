@@ -22,47 +22,49 @@
 
 'use strict'
 
-const ExpressMounter = require('./express')
+const path = require('path')
+
+const Registrar = require('./')
 
 /**
- * An extension of {@link ExpressMounter} which provides further compatibility with Restify by reading
- * <code>options</code> properties on route handlers and passing that to the server when mounting the route. These
- * options can include the content type, name, and version(s).
- *
- * For routes with multiple handlers, only the <code>options</code> property of the first handler with that property
- * will be used, for all handlers, and any <code>options</code> properties on other handlers will be ignored.
+ * An implementation of {@link Registrar} where the index files in each directory is loaded as a module and the result
+ * should be an object and containing properties whose names are mapped to supported verbs and whose values are one or
+ * more handlers which are then mounted against that verb.
  *
  * @public
- * @extends ExpressMounter
+ * @extends Registrar
  */
-class RestifyMounter extends ExpressMounter {
+class IndexRegistrar extends Registrar {
 
   /**
-   * @override
    * @inheritDoc
+   * @override
    */
-  static name() {
-    return 'restify'
+  static getName() {
+    return 'index'
   }
 
   /**
-   * @override
    * @inheritDoc
+   * @override
    */
-  mount(url, verb, handlers, options) {
-    handlers = Array.isArray(handlers) ? handlers : [ handlers ]
-
-    const handlerWithOptions = handlers.find((handler) => handler.options != null)
-    if (handlerWithOptions) {
-      url = Object.assign({}, handlerWithOptions.options, {
-        method: verb,
-        path: url
-      })
+  register(file, options) {
+    const name = path.basename(file, options.ext)
+    if (name !== 'index') {
+      return
     }
 
-    super.mount(url, verb, handlers, options)
+    const router = this.loadRouter(file, options)
+    const url = this.buildUrl(file, options)
+
+    options.verbs.forEach((verb) => {
+      const handlers = router[verb]
+      if (handlers) {
+        this.mounter.mount(url, verb, handlers, options)
+      }
+    })
   }
 
 }
 
-module.exports = RestifyMounter
+module.exports = Registrar.define(IndexRegistrar)

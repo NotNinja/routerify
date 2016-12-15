@@ -22,50 +22,44 @@
 
 'use strict'
 
-const Mounter = require('./mounter')
+const path = require('path')
+
+const Registrar = require('./')
 
 /**
- * An implementation of {@link Mounter} that is intended to be used for Express applications.
+ * An implementation of {@link Registrar} where the name of the files in each directory is checked and, if it's a
+ * supported verb, it's loaded as a module and the result should be one or more handlers which are then mounted against
+ * that verb.
  *
  * @public
- * @extends Mounter
+ * @extends Registrar
  */
-class ExpressMounter extends Mounter {
+class VerbRegistrar extends Registrar {
 
   /**
-   * @override
    * @inheritDoc
+   * @override
    */
-  static name() {
-    return 'express'
+  static getName() {
+    return 'verb'
   }
 
   /**
-   * @override
    * @inheritDoc
-   */
-  formatParamPath(param) {
-    return `:${param}`
-  }
-
-  /**
    * @override
-   * @inheritDoc
    */
-  getDefaultVerbs() {
-    return [ 'del', 'get', 'head', 'opts', 'patch', 'post', 'put' ]
-  }
+  register(file, options) {
+    const name = path.basename(file, options.ext)
+    if (!options.verbs.includes(name)) {
+      return
+    }
 
-  /**
-   * @override
-   * @inheritDoc
-   */
-  mount(url, verb, handlers, options) {
-    handlers = Array.isArray(handlers) ? handlers : [ handlers ]
+    const handlers = this.loadRouter(file, options)
+    const url = this.buildUrl(file, options)
 
-    options.server[verb](url, ...handlers)
+    this.mounter.mount(url, name, handlers, options)
   }
 
 }
 
-module.exports = ExpressMounter
+module.exports = Registrar.define(VerbRegistrar)
