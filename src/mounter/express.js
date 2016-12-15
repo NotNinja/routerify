@@ -25,7 +25,7 @@
 const Mounter = require('./mounter')
 
 /**
- * TODO: Document
+ * An implementation of {@link Mounter} that is intended to be used for Express applications.
  *
  * @public
  * @extends Mounter

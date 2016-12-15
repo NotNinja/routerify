@@ -26,7 +26,7 @@ const IndexRegistrar = require('./registrar/index')
 const VerbRegistrar = require('./registrar/verb')
 
 /**
- * TODO: Document
+ * A list of available {@link Registrar} constructors.
  *
  * @private
  * @type {Function[]}
@@ -34,7 +34,7 @@ const VerbRegistrar = require('./registrar/verb')
 const constructors = [ IndexRegistrar, VerbRegistrar ]
 
 /**
- * TODO: Document
+ * A map of {@link Registrar} names to their constructors.
  *
  * @public
  * @type {Object.<string, Function>}

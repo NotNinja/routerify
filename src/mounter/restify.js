@@ -27,7 +27,12 @@ const pick = require('lodash.pick')
 const ExpressMounter = require('./express')
 
 /**
- * TODO: Document
+ * An extension of {@link ExpressMounter} which provides further compatibility with Restify by reading
+ * <code>options</code> properties on route handlers and passing that to the server when mounting the route. These
+ * options can include the content type, name, and version(s).
+ *
+ * For routes with multiple handlers, only the <code>options</code> property of the first handler with that property
+ * will be used, for all handlers, and any <code>options</code> properties on other handlers will be ignored.
  *
  * @public
  * @extends ExpressMounter
@@ -49,9 +54,9 @@ class RestifyMounter extends ExpressMounter {
   mount(url, verb, handlers, options) {
     handlers = Array.isArray(handlers) ? handlers : [ handlers ]
 
-    const handlerWithMeta = handlers.find((handler) => handler.meta != null)
-    if (handlerWithMeta) {
-      const meta = pick(handlerWithMeta.meta, [
+    const handlerWithOptions = handlers.find((handler) => handler.options != null)
+    if (handlerWithOptions) {
+      const opts = pick(handlerWithOptions.options, [
         'contentType',
         'name',
         'version',
@@ -61,7 +66,7 @@ class RestifyMounter extends ExpressMounter {
       url = Object.assign({
         method: verb,
         path: url
-      }, meta)
+      }, opts)
     }
 
     super.mount(url, verb, handlers, options)

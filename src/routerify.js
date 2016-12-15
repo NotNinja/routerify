@@ -26,12 +26,16 @@ const defaultsDeep = require('lodash.defaultsdeep')
 const glob = require('glob')
 
 const mounters = require('./mounters')
+const pkg = require('../package.json')
 const registrars = require('./registrars')
 
 /**
- * TODO: Document
+ * Mounts routes onto a given server by loading modules within a specific directory.
  *
- * @param {routerify~options} options -
+ * The way in which the routes are loaded and resolved from the modules is dictated by the {@link Registrar} and the way
+ * in which those routes are mounted onto the server is dictated by the {@link Mounter}.
+ *
+ * @param {routerify~options} options - the options to be used
  * @return {void}
  * @public
  */
@@ -71,33 +75,48 @@ function routerify(options) {
 }
 
 /**
- * TODO: Document
+ * A map of {@link Mounter} names to their constructors.
  *
  * @public
+ * @static
  * @type {Object.<string, Function>}
  */
 routerify.mounters = mounters
 
 /**
- * TODO: Document
+ * A map of {@link Registrar} names to their constructors.
  *
  * @public
+ * @static
  * @type {Object.<string, Function>}
  */
 routerify.registrars = registrars
 
+/**
+ * The current version of routerify.
+ *
+ * @public
+ * @static
+ * @type {string}
+ */
+routerify.version = pkg.version
+
 module.exports = routerify
 
 /**
- * TODO: Document
+ * The options that can be passed to routerify.
  *
  * @typedef {Object} routerify~options
- * @property {string} [dir] -
- * @property {string} [ext=".js"] -
- * @property {Object} [glob] -
- * @property {string|Function} [mounter="express"] -
- * @property {RegExp} [paramPattern=/^_(.+)/] -
- * @property {string|Function} [registrar="verb"] -
- * @property {Object} server -
- * @property {string[]} [verbs] -
+ * @property {string} [dir] - The directory containing the routes to be loaded.
+ * @property {string} [ext=".js"] - The extension of the source files to be loaded.
+ * @property {Object} [glob] - Any options to be passed to the <code>glob</code> module when searching for source files
+ * within <code>dir</code>.
+ * @property {string|Function} [mounter="express"] - The name (or constructor) of the {@link Mounter} to be used to
+ * mount the discovered routes on to the <code>server</code>.
+ * @property {RegExp} [paramPattern=/^_(.+)/] - The regular expression to be used to match path parameter variables.
+ * @property {string|Function} [registrar="verb"] - The name (or constructor) of the {@link Registrar} used to load
+ * routes from source files in a given structure and then mount them via the <code>mounter</code>.
+ * @property {Object} server - The server object to which the routes are to be mounted.
+ * @property {string[]} [verbs] - The verbs (corresponding to HTTP methods) to be supported. Defaults to those provided
+ * by the <code>mounter</code> if not specified.
  */

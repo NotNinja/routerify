@@ -26,7 +26,7 @@ const ExpressMounter = require('./mounter/express')
 const RestifyMounter = require('./mounter/restify')
 
 /**
- * TODO: Document
+ * A list of available {@link Mounter} constructors.
  *
  * @private
  * @type {Function[]}
@@ -34,7 +34,7 @@ const RestifyMounter = require('./mounter/restify')
 const constructors = [ ExpressMounter, RestifyMounter ]
 
 /**
- * TODO: Document
+ * A map of {@link Mounter} names to their constructors.
  *
  * @public
  * @type {Object.<string, Function>}

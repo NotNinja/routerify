@@ -23,16 +23,16 @@
 'use strict'
 
 /**
- * TODO: Document
+ * Responsible for mounting a route, whose information is provided by a {@link Registrar}, onto the server.
  *
  * @public
  */
 class Mounter {
 
   /**
-   * TODO: Document
+   * Returns the name of the {@link Mounter} which can be used to lookup constructors.
    *
-   * @return {string}
+   * @return {string} The name.
    * @public
    * @static
    * @abstract
@@ -41,10 +41,10 @@ class Mounter {
   }
 
   /**
-   * TODO: Document
+   * Formats the given <code>param</code> so that it can be inserted into the route URL and interpreted by the server.
    *
-   * @param {string} param -
-   * @return {string}
+   * @param {string} param - the parameter name to be formatted
+   * @return {string} The formatted parameter path variable.
    * @public
    * @abstract
    */
@@ -52,9 +52,9 @@ class Mounter {
   }
 
   /**
-   * TODO: Document
+   * Returns the list of verbs, corresponding to HTTP methods, to which routes can be mounted by this {@link Mounter}.
    *
-   * @return {string[]}
+   * @return {string[]} The default supported verbs.
    * @public
    * @abstract
    */
@@ -62,13 +62,13 @@ class Mounter {
   }
 
   /**
-   * TODO: Document
+   * Mounts the specified <code>handlers</code> onto the route <code>url</code> and <code>verb</code> provided.
    *
-   * @param {string} url -
-   * @param {string} verb -
-   * @param {Function|Function[]} handlers -
-   * @param {routerify~options} options -
-   * @return {*}
+   * @param {string} url - the route URL onto which the <code>handlers</code> are to be mounted
+   * @param {string} verb - the route verb for which <code>handlers</code> are to be mounted
+   * @param {Function|Function[]} handlers - the handler(s) to be mounted
+   * @param {routerify~options} options - the options to be used
+   * @return {void}
    * @public
    * @abstract
    */

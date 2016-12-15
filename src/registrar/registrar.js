@@ -22,20 +22,20 @@
 
 'use strict'
 
-const glob = require('glob')
 const path = require('path')
 
 /**
- * TODO: Document
+ * Responsible for loading routes from a specific structure of modules and mounting them onto the server using a given
+ * {@link Mounter}.
  *
  * @public
  */
 class Registrar {
 
   /**
-   * TODO: Document
+   * Returns the name of the {@link Registrar} which can be used to lookup constructors.
    *
-   * @return {string}
+   * @return {string} The name.
    * @public
    * @static
    * @abstract
@@ -44,13 +44,14 @@ class Registrar {
   }
 
   /**
-   * TODO: Document
+   * Creates an instance of {@link Registrar} with the specified <code>mounter</code>.
    *
-   * @param {Mounter} mounter -
+   * @param {Mounter} mounter - the {@link Mounter} to be used
+   * @public
    */
   constructor(mounter) {
     /**
-     * TODO: Document
+     * The {@link Mounter} to be used by this {@link Registrar} to mount discovered routes onto the server.
      *
      * @protected
      * @type {Mounter}
@@ -59,11 +60,17 @@ class Registrar {
   }
 
   /**
-   * TODO: Document
+   * Builds the route URL from the <code>file</code> path provided.
    *
-   * @param {string} file -
-   * @param {routerify~options} options -
-   * @return {string}
+   * This includes detecting files/directories that represent parameter path variables and inserting the names into the
+   * route URL correctly based on the {@link Mounter}.
+   *
+   * By default, this method simply concatenates the <code>file</code> path segments into the URL while dropping the
+   * last path segment.
+   *
+   * @param {string} file - the file path of the module from which the routes are being loaded
+   * @param {routerify~options} options - the options to be used
+   * @return {string} The route URL built from the <code>file</code> path.
    * @protected
    */
   buildUrl(file, options) {
@@ -80,11 +87,11 @@ class Registrar {
   }
 
   /**
-   * TODO: Document
+   * Loads the router(s) from the module at the specified <code>file</code> path.
    *
-   * @param {string} file -
-   * @param {routerify~options} options -
-   * @return {*}
+   * @param {string} file - the file path of the module from which the routes are being loaded
+   * @param {routerify~options} options - the options to be used
+   * @return {*} The router loaded from the module at the <code>file</code> path.
    * @protected
    */
   loadRouter(file, options) {
@@ -92,10 +99,10 @@ class Registrar {
   }
 
   /**
-   * TODO: Document
+   * Loads routes from the module at the specified <code>file</code> path and then mounts them onto the server.
    *
-   * @param {string} file -
-   * @param {routerify~options} options -
+   * @param {string} file - the file path of the module from which the routes are to be loaded
+   * @param {routerify~options} options - the options to be used
    * @return {void}
    * @public
    * @abstract

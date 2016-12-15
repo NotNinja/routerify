@@ -27,7 +27,9 @@ const path = require('path')
 const Registrar = require('./registrar')
 
 /**
- * TODO: Document
+ * An implementation of {@link Registrar} where the name of the files in each directory is checked and, if it's a
+ * supported verb, it's loaded as a module and the result should be one or more handlers which are then mounted against
+ * that verb.
  *
  * @public
  * @extends Registrar

@@ -8,6 +8,13 @@
     "max-params": [
       "error",
       4
+    ],
+    "no-empty-function": "off",
+    "no-unused-vars": [
+      "warn",
+      {
+        "args": "none"
+      }
     ]
   }
 }
