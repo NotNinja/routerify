@@ -22,8 +22,6 @@
 
 'use strict'
 
-const pick = require('lodash.pick')
-
 const ExpressMounter = require('./express')
 
 /**
@@ -56,17 +54,10 @@ class RestifyMounter extends ExpressMounter {
 
     const handlerWithOptions = handlers.find((handler) => handler.options != null)
     if (handlerWithOptions) {
-      const opts = pick(handlerWithOptions.options, [
-        'contentType',
-        'name',
-        'version',
-        'versions'
-      ])
-
-      url = Object.assign({
+      url = Object.assign({}, handlerWithOptions.options, {
         method: verb,
         path: url
-      }, opts)
+      })
     }
 
     super.mount(url, verb, handlers, options)
