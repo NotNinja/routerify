@@ -13,6 +13,7 @@
 [Routerify](https://github.com/Skelp/routerify) is an opinionated router loader for Express-like applications.
 
 [![Build](https://img.shields.io/travis/Skelp/routerify/develop.svg?style=flat-square)](https://travis-ci.org/Skelp/routerify)
+[![Coverage](https://img.shields.io/coveralls/Skelp/routerify/develop.svg?style=flat-square)](https://coveralls.io/github/Skelp/routerify)
 [![Dependencies](https://img.shields.io/david/Skelp/routerify.svg?style=flat-square)](https://david-dm.org/Skelp/routerify)
 [![Dev Dependencies](https://img.shields.io/david/dev/Skelp/routerify.svg?style=flat-square)](https://david-dm.org/Skelp/routerify#info=devDependencies)
 [![License](https://img.shields.io/npm/l/routerify.svg?style=flat-square)](https://github.com/Skelp/routerify/blob/master/LICENSE.md)
