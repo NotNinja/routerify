@@ -36,9 +36,9 @@ You'll need to have at least [Node.js](https://nodejs.org) 6 or newer.
 
 ## Configurations
 
-Routerify is opinionated. Routerify is also configurable and extensible. The two core concepts that Routerify has are
-*Registrars* and *Mounters*. Through these, Routerify can be configured to load routes from modules in any pattern and
-mount them onto any server.
+Routerify is opinionated. Routerify is also configurable and extensible via plugins. The two core plugin types that
+Routerify has are *Registrars* and *Mounters*. Through these, Routerify can be configured to load routes from modules in
+any pattern and mount them onto any server.
  
 ### Registrars
 
@@ -147,7 +147,7 @@ const Registrar = require('routerify/src/registrar')
 
 class CustomRegistrar extends Registrar {
 
-  static getName() {
+  getPluginName() {
     return 'custom'
   }
   
@@ -157,7 +157,9 @@ class CustomRegistrar extends Registrar {
   }
 }
 
-module.exports = Registrar.define(CustomRegistrar)
+routerify.use(new CustomRegistrar())
+
+module.exports = CustomRegistrar
 ```
 
 Now your new registrar can be used by simply specifying its name in the options:
@@ -214,10 +216,6 @@ const routerify = require('routerify')
 const Mounter = require('routerify/src/mounter')
 
 class CustomMounter extends Mounter {
-
-  static getName() {
-    return 'custom'
-  }
   
   formatParamPath(param) {
     // Format param for insertion into the route URL
@@ -229,13 +227,19 @@ class CustomMounter extends Mounter {
     return [...]
   }
 
+  getPluginName() {
+    return 'custom'
+  }
+
   mount(url, verb, handlers, options) {
     // Mount the route onto options.server
     ...
   }
 }
 
-module.exports = Mounter.define(CustomMounter)
+routerify.use(new CustomMounter())
+
+module.exports = CustomMounter
 ```
 
 Now your new mounter can be used by simply specifying its name in the options:
@@ -292,6 +296,35 @@ The following options can be passed to Routerify:
 | `verbs`        | The verbs (corresponding to HTTP methods) to be supported. Defaults to those provided by the `mounter` if not specified.      | `mounter.getDefaultValues()` |
 
 Only the `server` option is required. All others have defaults.
+
+### `routerify.lookup(type[, name])`
+
+This method is primarily intended for internal use and provides a means of looking up register `Plugin` instances of a
+given `type`. If no `name` is provided, it will return all instances that inherit from `type`. Otherwise, this method
+will return the first instance that inherits from `type` that has the given `name` and will throw an error if no
+matching plugin could be found.
+
+``` javascript
+const Plugin = require('routerify/src/plugin')
+const Registrar = require('routerify/src/registrar')
+
+routerify.lookup(Plugin)
+=> [ ExpressMounter {}, RestifyMounter {}, IndexRegistrar {}, VerbRegistrar {} ]
+routerify.lookup(Registrar)
+=> [ IndexRegistrar {}, VerbRegistrar {} ]
+routerify.lookup(Registrar, 'verb')
+=> VerbRegistrar {}
+routerify.lookup(Registrar, 'foo')
+=> throws Error
+```
+
+### `routerify.use(plugin)`
+
+Routerify can be configured via the use of plugins, which can be registered by this method. It takes a given instance of
+`Plugin`.
+
+The previous examples for creating your own [mounters](#create-your-own-mounter) and
+[registrars](#create-your-own-registrar) cover how to use this method.
 
 ### `routerify.version`
 
