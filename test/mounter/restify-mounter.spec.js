@@ -29,18 +29,6 @@ const ExpressMounter = require('../../src/mounter/express-mounter')
 const RestifyMounter = require('../../src/mounter/restify-mounter')
 
 describe('mounter/restify-mounter', () => {
-  describe('RestifyMounter', () => {
-    it('should extend ExpressMounter', () => {
-      expect(new RestifyMounter()).to.be.an.instanceof(ExpressMounter)
-    })
-
-    describe('.getName', () => {
-      it('should return correct name', () => {
-        expect(RestifyMounter.getName()).to.equal('restify')
-      })
-    })
-  })
-
   describe('RestifyMounter.prototype', () => {
     let mounter
 
@@ -57,6 +45,12 @@ describe('mounter/restify-mounter', () => {
     describe('.getDefaultVerbs', () => {
       it('should contain all verbs supported by Restify', () => {
         expect(mounter.getDefaultVerbs()).to.eql([ 'del', 'get', 'head', 'opts', 'patch', 'post', 'put' ])
+      })
+    })
+
+    describe('.getPluginName', () => {
+      it('should return correct name', () => {
+        expect(mounter.getPluginName()).to.equal('restify')
       })
     })
 

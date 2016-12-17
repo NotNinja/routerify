@@ -24,74 +24,17 @@
 
 const path = require('path')
 
-/**
- * The available {@link Registrar} implementation constructors mapped against their name.
- *
- * @private
- * @type {Map.<string, Function>}
- */
-const types = new Map()
+const Plugin = require('../plugin')
+const Utilities = require('../utilities')
 
 /**
- * Responsible for loading routes from a specific structure of modules and mounting them onto the server using a given
+ * Responsible for loading routes from a specific structure of modules and mounting them onto the server using a
  * {@link Mounter}.
  *
  * @public
+ * @extends Plugin
  */
-class Registrar {
-
-  /**
-   * Defines the specified <code>type</code> of {@link Registrar} so that it can be looked up using its name.
-   *
-   * @param {Function} type - the constructor of the {@link Registrar} implementation to be defined
-   * @return {Function} A reference to <code>type</code>.
-   * @public
-   * @static
-   */
-  static define(type) {
-    types.set(type.getName(), type)
-
-    return type
-  }
-
-  /**
-   * Returns the name of the {@link Registrar} which can be used to lookup constructors.
-   *
-   * @return {string} The name.
-   * @public
-   * @static
-   * @abstract
-   */
-  static getName() {
-  }
-
-  /**
-   * Looks up the type of {@link Registrar} associated with the specified <code>name</code>.
-   *
-   * @param {string} name - the name associated with the {@link Registrar} implementation to be looked up
-   * @return {Function} The constructor of the {@link Registrar} implementation associated with <code>name</code>.
-   * @public
-   * @static
-   */
-  static lookup(name) {
-    return types.get(name)
-  }
-
-  /**
-   * Creates an instance of {@link Registrar} with the specified <code>mounter</code>.
-   *
-   * @param {Mounter} mounter - the {@link Mounter} to be used
-   * @public
-   */
-  constructor(mounter) {
-    /**
-     * The {@link Mounter} to be used by this {@link Registrar} to mount discovered routes onto the server.
-     *
-     * @protected
-     * @type {Mounter}
-     */
-    this.mounter = mounter
-  }
+class Registrar extends Plugin {
 
   /**
    * Builds the route URL from the <code>file</code> path provided.
@@ -113,7 +56,7 @@ class Registrar {
       .reduce((memo, segment) => {
         const match = segment.match(options.paramPattern)
         if (match) {
-          segment = this.mounter.formatParamPath(match[1])
+          segment = options.mounter.formatParamPath(match[1])
         }
 
         return `${memo}/${segment}`
@@ -142,6 +85,7 @@ class Registrar {
    * @abstract
    */
   register(file, options) {
+    Utilities.abstracted(Registrar, 'register')
   }
 
 }

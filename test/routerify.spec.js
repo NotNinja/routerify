@@ -28,4 +28,16 @@ const routerify = require('../src/routerify')
 
 describe('routerify', () => {
   // TODO: Complete
+
+  describe('.lookup', () => {
+    // TODO: Complete
+  })
+
+  describe('.use', () => {
+    // TODO: Complete
+  })
+
+  describe('.version', () => {
+    // TODO: Complete
+  })
 })

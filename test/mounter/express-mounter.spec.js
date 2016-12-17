@@ -29,18 +29,6 @@ const Mounter = require('../../src/mounter')
 const ExpressMounter = require('../../src/mounter/express-mounter')
 
 describe('mounter/express-mounter', () => {
-  describe('ExpressMounter', () => {
-    it('should extend Mounter', () => {
-      expect(new ExpressMounter()).to.be.an.instanceof(Mounter)
-    })
-
-    describe('.getName', () => {
-      it('should return correct name', () => {
-        expect(ExpressMounter.getName()).to.equal('express')
-      })
-    })
-  })
-
   describe('ExpressMounter.prototype', () => {
     let mounter
 
@@ -57,6 +45,12 @@ describe('mounter/express-mounter', () => {
     describe('.getDefaultVerbs', () => {
       it('should contain all verbs supported by Express', () => {
         expect(mounter.getDefaultVerbs()).to.eql([ 'del', 'get', 'head', 'opts', 'patch', 'post', 'put' ])
+      })
+    })
+
+    describe('.getPluginName', () => {
+      it('should return correct name', () => {
+        expect(mounter.getPluginName()).to.equal('express')
       })
     })
 

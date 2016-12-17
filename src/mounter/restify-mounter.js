@@ -41,7 +41,7 @@ class RestifyMounter extends ExpressMounter {
    * @override
    * @inheritDoc
    */
-  static getName() {
+  getPluginName() {
     return 'restify'
   }
 
@@ -65,4 +65,4 @@ class RestifyMounter extends ExpressMounter {
 
 }
 
-module.exports = ExpressMounter.define(RestifyMounter)
+module.exports = RestifyMounter

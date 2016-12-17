@@ -22,31 +22,28 @@
 
 'use strict'
 
-const { expect } = require('chai')
-const sinon = require('sinon')
+/**
+ * Contains utility methods.
+ *
+ * @public
+ */
+class Utilities {
 
-const Registrar = require('../../src/registrar')
+  /**
+   * Throws an error indicating that an abstract method with the given name has not been implemented by a child of
+   * <code>type</code>.
+   *
+   * @param {Function} type - the class to which the method belongs
+   * @param {string} methodName - the name of abstract method
+   * @return {void}
+   * @throws {Error} If this method is ever called.
+   * @public
+   * @static
+   */
+  static abstracted(type, methodName) {
+    throw new Error(`${type.name}#${methodName} has not been implemented`)
+  }
 
-describe('registrar/index', () => {
-  describe('Registrar.prototype', () => {
-    let registrar
+}
 
-    beforeEach(() => {
-      registrar = new Registrar()
-    })
-
-    describe('.buildUrl', () => {
-      // TODO: Complete
-    })
-
-    describe('.loadRouter', () => {
-      // TODO: Complete
-    })
-
-    describe('.register', () => {
-      it('should be abstract', () => {
-        expect(registrar.register.bind(registrar)).to.throw('Registrar#register has not been implemented')
-      })
-    })
-  })
-})
+module.exports = Utilities

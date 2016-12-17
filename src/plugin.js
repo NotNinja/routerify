@@ -22,31 +22,28 @@
 
 'use strict'
 
-const { expect } = require('chai')
-const sinon = require('sinon')
+const Utilities = require('./utilities')
 
-const Registrar = require('../../src/registrar')
+/**
+ * A plugin can be registered to be used and then looked up later based on the plugin name.
+ *
+ * @public
+ */
+class Plugin {
 
-describe('registrar/index', () => {
-  describe('Registrar.prototype', () => {
-    let registrar
+  /**
+   * The name for this {@link Plugin}.
+   *
+   * This name should be unique for the type of plugin (determined by the hierarchy of the plugin looked up).
+   *
+   * @return {string} The plugin name.
+   * @public
+   * @abstract
+   */
+  getPluginName() {
+    Utilities.abstracted(Plugin, 'getPluginName')
+  }
 
-    beforeEach(() => {
-      registrar = new Registrar()
-    })
+}
 
-    describe('.buildUrl', () => {
-      // TODO: Complete
-    })
-
-    describe('.loadRouter', () => {
-      // TODO: Complete
-    })
-
-    describe('.register', () => {
-      it('should be abstract', () => {
-        expect(registrar.register.bind(registrar)).to.throw('Registrar#register has not been implemented')
-      })
-    })
-  })
-})
+module.exports = Plugin

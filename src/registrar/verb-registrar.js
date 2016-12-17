@@ -24,7 +24,7 @@
 
 const path = require('path')
 
-const Registrar = require('./')
+const Registrar = require('./index')
 
 /**
  * An implementation of {@link Registrar} where the name of the files in each directory is checked and, if it's a
@@ -40,7 +40,7 @@ class VerbRegistrar extends Registrar {
    * @inheritDoc
    * @override
    */
-  static getName() {
+  getPluginName() {
     return 'verb'
   }
 
@@ -57,9 +57,9 @@ class VerbRegistrar extends Registrar {
     const handlers = this.loadRouter(file, options)
     const url = this.buildUrl(file, options)
 
-    this.mounter.mount(url, name, handlers, options)
+    options.mounter.mount(url, name, handlers, options)
   }
 
 }
 
-module.exports = Registrar.define(VerbRegistrar)
+module.exports = VerbRegistrar

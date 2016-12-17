@@ -27,40 +27,28 @@ const { expect } = require('chai')
 const Mounter = require('../../src/mounter')
 
 describe('mounter/index', () => {
-  describe('Mounter', () => {
-    const testName = 'test'
+  describe('Mounter.prototype', () => {
+    let mounter
 
-    class TestMounter extends Mounter {
+    beforeEach(() => {
+      mounter = new Mounter()
+    })
 
-      static getName() {
-        return testName
-      }
-
-    }
-
-    describe('.define', () => {
-      it('should map type based on its name', () => {
-        expect(Mounter.define(TestMounter)).to.equal(TestMounter)
-        expect(Mounter.lookup(testName)).to.equal(TestMounter)
+    describe('.formatParamPath', () => {
+      it('should be abstract', () => {
+        expect(mounter.formatParamPath.bind(mounter)).to.throw('Mounter#formatParamPath has not been implemented')
       })
     })
 
-    describe('.lookup', () => {
-      it('should return type based with name', () => {
-        expect(Mounter.define(TestMounter)).to.equal(TestMounter)
-        expect(Mounter.lookup(testName)).to.equal(TestMounter)
+    describe('.getDefaultVerbs', () => {
+      it('should be abstract', () => {
+        expect(mounter.getDefaultVerbs.bind(mounter)).to.throw('Mounter#getDefaultVerbs has not been implemented')
       })
+    })
 
-      it('should be case sensitive', () => {
-        expect(Mounter.define(TestMounter)).to.equal(TestMounter)
-        expect(Mounter.lookup(testName)).to.equal(TestMounter)
-        expect(Mounter.lookup(testName.toUpperCase())).to.be.undefined
-      })
-
-      context('when there is not matching type', () => {
-        it('should return nothing', () => {
-          expect(Mounter.lookup('foo')).to.be.undefined
-        })
+    describe('.mount', () => {
+      it('should be abstract', () => {
+        expect(mounter.mount.bind(mounter)).to.throw('Mounter#mount has not been implemented')
       })
     })
   })

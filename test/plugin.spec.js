@@ -23,29 +23,20 @@
 'use strict'
 
 const { expect } = require('chai')
-const sinon = require('sinon')
 
-const Registrar = require('../../src/registrar')
+const Plugin = require('../src/plugin')
 
-describe('registrar/index', () => {
-  describe('Registrar.prototype', () => {
-    let registrar
+describe('plugin', () => {
+  describe('Plugin.prototype', () => {
+    let plugin
 
     beforeEach(() => {
-      registrar = new Registrar()
+      plugin = new Plugin()
     })
 
-    describe('.buildUrl', () => {
-      // TODO: Complete
-    })
-
-    describe('.loadRouter', () => {
-      // TODO: Complete
-    })
-
-    describe('.register', () => {
+    describe('.getPluginName', () => {
       it('should be abstract', () => {
-        expect(registrar.register.bind(registrar)).to.throw('Registrar#register has not been implemented')
+        expect(plugin.getPluginName.bind(plugin)).to.throw('Plugin#getPluginName has not been implemented')
       })
     })
   })

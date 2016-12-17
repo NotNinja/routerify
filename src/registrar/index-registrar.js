@@ -24,7 +24,7 @@
 
 const path = require('path')
 
-const Registrar = require('./')
+const Registrar = require('./index')
 
 /**
  * An implementation of {@link Registrar} where the index files in each directory is loaded as a module and the result
@@ -40,7 +40,7 @@ class IndexRegistrar extends Registrar {
    * @inheritDoc
    * @override
    */
-  static getName() {
+  getPluginName() {
     return 'index'
   }
 
@@ -60,11 +60,11 @@ class IndexRegistrar extends Registrar {
     options.verbs.forEach((verb) => {
       const handlers = router[verb]
       if (handlers) {
-        this.mounter.mount(url, verb, handlers, options)
+        options.mounter.mount(url, verb, handlers, options)
       }
     })
   }
 
 }
 
-module.exports = Registrar.define(IndexRegistrar)
+module.exports = IndexRegistrar

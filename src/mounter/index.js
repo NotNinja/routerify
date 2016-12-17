@@ -22,57 +22,16 @@
 
 'use strict'
 
-/**
- * The available {@link Mounter} implementation constructors mapped against their name.
- *
- * @private
- * @type {Map.<string, Function>}
- */
-const types = new Map()
+const Plugin = require('../plugin')
+const Utilities = require('../utilities')
 
 /**
  * Responsible for mounting a route, whose information is provided by a {@link Registrar}, onto the server.
  *
  * @public
+ * @extends Plugin
  */
-class Mounter {
-
-  /**
-   * Defines the specified <code>type</code> of {@link Mounter} so that it can be looked up using its name.
-   *
-   * @param {Function} type - the constructor of the {@link Mounter} implementation to be defined
-   * @return {Function} A reference to <code>type</code>.
-   * @public
-   * @static
-   */
-  static define(type) {
-    types.set(type.getName(), type)
-
-    return type
-  }
-
-  /**
-   * Returns the name of the {@link Mounter} which can be used to lookup constructors.
-   *
-   * @return {string} The name.
-   * @public
-   * @static
-   * @abstract
-   */
-  static getName() {
-  }
-
-  /**
-   * Looks up the type of {@link Mounter} associated with the specified <code>name</code>.
-   *
-   * @param {string} name - the name associated with the {@link Mounter} implementation to be looked up
-   * @return {Function} The constructor of the {@link Mounter} implementation associated with <code>name</code>.
-   * @public
-   * @static
-   */
-  static lookup(name) {
-    return types.get(name)
-  }
+class Mounter extends Plugin {
 
   /**
    * Formats the given <code>param</code> so that it can be inserted into the route URL and interpreted by the server.
@@ -83,6 +42,7 @@ class Mounter {
    * @abstract
    */
   formatParamPath(param) {
+    Utilities.abstracted(Mounter, 'formatParamPath')
   }
 
   /**
@@ -93,6 +53,7 @@ class Mounter {
    * @abstract
    */
   getDefaultVerbs() {
+    Utilities.abstracted(Mounter, 'getDefaultVerbs')
   }
 
   /**
@@ -107,6 +68,7 @@ class Mounter {
    * @abstract
    */
   mount(url, verb, handlers, options) {
+    Utilities.abstracted(Mounter, 'mount')
   }
 
 }

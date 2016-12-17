@@ -22,7 +22,7 @@
 
 'use strict'
 
-const Mounter = require('./')
+const Mounter = require('./index')
 
 /**
  * An implementation of {@link Mounter} that is intended to be used for Express applications.
@@ -31,14 +31,6 @@ const Mounter = require('./')
  * @extends Mounter
  */
 class ExpressMounter extends Mounter {
-
-  /**
-   * @override
-   * @inheritDoc
-   */
-  static getName() {
-    return 'express'
-  }
 
   /**
    * @override
@@ -60,6 +52,14 @@ class ExpressMounter extends Mounter {
    * @override
    * @inheritDoc
    */
+  getPluginName() {
+    return 'express'
+  }
+
+  /**
+   * @override
+   * @inheritDoc
+   */
   mount(url, verb, handlers, options) {
     handlers = Array.isArray(handlers) ? handlers : [ handlers ]
 
@@ -68,4 +68,4 @@ class ExpressMounter extends Mounter {
 
 }
 
-module.exports = Mounter.define(ExpressMounter)
+module.exports = ExpressMounter
