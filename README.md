@@ -50,45 +50,10 @@ you can simply [create your own](#create-your-own-registrar) and, optionally,
 [create a pull request](https://github.com/Skelp/routerify/compare) to share it with everyone, provided our opinions
 match :) If not, you can always release it as a plugin.
 
-#### `VerbRegistrar`
-
-**Name:** `"verb"`  
-**Default:** Yes  
-**How it works:**
-
-It expects the following file structure under the target directory:
-
-```
-- /
-  - users/
-    - _userId/
-      - sessions/
-        - get.js
-      - del.js
-      - get.js
-      - put.js
-    - get.js
-    - helper.js
-    - post.js
-```
-
-Only files whose base name matches that of a supported verb will be loaded (e.g. `helper.js` in the above example would
-be ignored) and it expects each one of those modules to export either a single handler method or an array of handler
-methods. 
-
-In the example above, the following routes would be registered:
-
-* `GET /users`
-* `POST /users`
-* `DELETE /users/:userId`
-* `GET /users/:userId`
-* `PUT /users/:userId`
-* `GET /users/:userId/sessions`
-
 #### `IndexRegistrar`
 
 **Name:** `"index"`  
-**Default:** No  
+**Default:** Yes  
 **How it works:**
 
 It expects the following file structure under the target directory:
@@ -136,6 +101,41 @@ following routes would be registered:
 * `PUT /users/:userId`
 
 The `fetchUser` method is ignored because it does not match a supported verb.
+
+#### `VerbRegistrar`
+
+**Name:** `"verb"`  
+**Default:** No  
+**How it works:**
+
+It expects the following file structure under the target directory:
+
+```
+- /
+  - users/
+    - _userId/
+      - sessions/
+        - get.js
+      - del.js
+      - get.js
+      - put.js
+    - get.js
+    - helper.js
+    - post.js
+```
+
+Only files whose base name matches that of a supported verb will be loaded (e.g. `helper.js` in the above example would
+be ignored) and it expects each one of those modules to export either a single handler method or an array of handler
+methods. 
+
+In the example above, the following routes would be registered:
+
+* `GET /users`
+* `POST /users`
+* `DELETE /users/:userId`
+* `GET /users/:userId`
+* `PUT /users/:userId`
+* `GET /users/:userId/sessions`
 
 #### Create your own Registrar
 
@@ -291,7 +291,7 @@ The following options can be passed to Routerify:
 | `glob`         | Any options to be passed to the `glob` module when searching for source files within `dir`.                                   | `{}`                         |
 | `mounter`      | The name of the `Mounter` to be used to mount the discovered routes on to the `server`.                                       | `"express"`                  |
 | `paramPattern` | The regular expression to be used to match path parameter variables.                                                          | `/^_(.+)/`                   |
-| `registrar`    | The name of the `Registrar` used to load routes from source files in a given structure and then mount them via the `mounter`. | `"verb"`                     |
+| `registrar`    | The name of the `Registrar` used to load routes from source files in a given structure and then mount them via the `mounter`. | `"index"`                    |
 | `server`       | The server object (e.g. `express()`) to which the routes are to be mounted.                                                   | N/A                          |
 | `verbs`        | The verbs (corresponding to HTTP methods) to be supported. Defaults to those provided by the `mounter` if not specified.      | `mounter.getDefaultValues()` |
 

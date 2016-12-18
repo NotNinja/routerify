@@ -98,7 +98,7 @@ describe('routerify', () => {
       beforeEach(() => {
         defaultMounter = routerify.lookup(Mounter, 'express')
         sinon.stub(defaultMounter, 'getDefaultVerbs')
-        defaultRegistrar = routerify.lookup(Registrar, 'verb')
+        defaultRegistrar = routerify.lookup(Registrar, 'index')
         sinon.stub(defaultRegistrar, 'register')
       })
 
@@ -121,7 +121,7 @@ describe('routerify', () => {
           glob: {},
           mounter: 'express',
           paramPattern: /^_(.+)/,
-          registrar: 'verb',
+          registrar: 'index',
           server,
           verbs
         }

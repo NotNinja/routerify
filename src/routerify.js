@@ -58,7 +58,7 @@ function routerify(options) {
     glob: {},
     mounter: 'express',
     paramPattern: /^_(.+)/,
-    registrar: 'verb',
+    registrar: 'index',
     server: null,
     verbs: null
   })
