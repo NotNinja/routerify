@@ -22,48 +22,6 @@
 
 'use strict'
 
-const path = require('path')
+function level1Get(req, res, next) {}
 
-const Registrar = require('./index')
-
-/**
- * An implementation of {@link Registrar} where the index files in each directory is loaded as a module and the result
- * should be an object and containing properties whose names are mapped to supported verbs and whose values are one or
- * more handlers which are then mounted against that verb.
- *
- * @public
- * @extends Registrar
- */
-class IndexRegistrar extends Registrar {
-
-  /**
-   * @inheritDoc
-   * @override
-   */
-  getPluginName() {
-    return 'index'
-  }
-
-  /**
-   * @inheritDoc
-   * @override
-   */
-  register(file, options) {
-    const name = path.basename(file, options.ext)
-    if (name !== 'index') {
-      return
-    }
-
-    const router = this.loadRouter(file, options)
-    const url = this.buildUrl(file, options)
-
-    Object.keys(router)
-      .filter(options.verbs.includes.bind(options.verbs))
-      .forEach((verb) => {
-        options.mounter.mount(url, verb, router[verb], options)
-      })
-  }
-
-}
-
-module.exports = IndexRegistrar
+module.exports = level1Get

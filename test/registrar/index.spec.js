@@ -23,24 +23,41 @@
 'use strict'
 
 const { expect } = require('chai')
+const path = require('path')
 const sinon = require('sinon')
 
+const Mounter = require('../../src/mounter')
 const Registrar = require('../../src/registrar')
+const routerify = require('../../src/routerify')
 
 describe('registrar/index', () => {
   describe('Registrar.prototype', () => {
+    let mounter
     let registrar
 
     beforeEach(() => {
+      mounter = sinon.createStubInstance(Mounter)
       registrar = new Registrar()
     })
 
     describe('.buildUrl', () => {
-      // TODO: Complete
+      it('should build the URL correctly', () => {
+        mounter.formatParamPath.withArgs('id').returns('{id}')
+
+        const file = path.join('test', 'fixtures', 'registrar', 'verb', 'level1', '_id', 'level2', 'get.js')
+        const url = registrar.buildUrl(file, {
+          mounter,
+          paramPattern: /^_(.+)/
+        })
+
+        expect(url).to.equal('/test/fixtures/registrar/verb/level1/{id}/level2')
+      })
     })
 
     describe('.loadRouter', () => {
-      // TODO: Complete
+      it('should load file as module based on "dir" option', () => {
+        expect(registrar.loadRouter('routerify.js', { dir: 'src' })).to.equal(routerify)
+      })
     })
 
     describe('.register', () => {

@@ -25,7 +25,6 @@
 const { expect } = require('chai')
 const sinon = require('sinon')
 
-const Mounter = require('../../src/mounter')
 const ExpressMounter = require('../../src/mounter/express-mounter')
 
 describe('mounter/express-mounter', () => {

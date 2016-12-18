@@ -22,11 +22,29 @@
 
 'use strict'
 
-const { expect } = require('chai')
-
-const Registrar = require('../../src/registrar')
+const RegistrarTestCase = require('./registrar-test-case')
 const VerbRegistrar = require('../../src/registrar/verb-registrar')
 
 describe('registrar/verb-registrar', () => {
-  // TODO: Complete
+  describe('VerbRegistrar.prototype', () => {
+    let registrar
+    let testCase
+
+    beforeEach(() => {
+      registrar = new VerbRegistrar()
+      testCase = new RegistrarTestCase(registrar, 'verb')
+    })
+
+    describe('.getPluginName', () => {
+      it('should return correct name', () => {
+        testCase.testGetPluginName()
+      })
+    })
+
+    describe('.register', () => {
+      it('should register verb file-based routes via mounter', () => {
+        testCase.testRegister()
+      })
+    })
+  })
 })

@@ -22,11 +22,29 @@
 
 'use strict'
 
-const { expect } = require('chai')
-
-const Registrar = require('../../src/registrar')
 const IndexRegistrar = require('../../src/registrar/index-registrar')
+const RegistrarTestCase = require('./registrar-test-case')
 
 describe('registrar/index-registrar', () => {
-  // TODO: Complete
+  describe('IndexRegistrar.prototype', () => {
+    let registrar
+    let testCase
+
+    beforeEach(() => {
+      registrar = new IndexRegistrar()
+      testCase = new RegistrarTestCase(registrar, 'index')
+    })
+
+    describe('.getPluginName', () => {
+      it('should return correct name', () => {
+        testCase.testGetPluginName()
+      })
+    })
+
+    describe('.register', () => {
+      it('should register index file-based routes via mounter', () => {
+        testCase.testRegister()
+      })
+    })
+  })
 })
