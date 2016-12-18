@@ -22,44 +22,6 @@
 
 'use strict'
 
-const path = require('path')
+function level1Post(req, res, next) {}
 
-const Registrar = require('./registrar')
-
-/**
- * An implementation of {@link Registrar} where the name of the files in each directory is checked and, if it's a
- * supported verb, it's loaded as a module and the result should be one or more handlers which are then mounted against
- * that verb.
- *
- * @public
- * @extends Registrar
- */
-class VerbRegistrar extends Registrar {
-
-  /**
-   * @inheritDoc
-   * @override
-   */
-  static name() {
-    return 'verb'
-  }
-
-  /**
-   * @inheritDoc
-   * @override
-   */
-  register(file, options) {
-    const name = path.basename(file, options.ext)
-    if (!options.verbs.includes(name)) {
-      return
-    }
-
-    const handlers = this.loadRouter(file, options)
-    const url = this.buildUrl(file, options)
-
-    this.mounter.mount(url, name, handlers, options)
-  }
-
-}
-
-module.exports = VerbRegistrar
+module.exports = level1Post

@@ -24,47 +24,70 @@
 
 const path = require('path')
 
-const Registrar = require('./registrar')
+const Plugin = require('../plugin')
+const Utilities = require('../utilities')
 
 /**
- * An implementation of {@link Registrar} where the index files in each directory is loaded as a module and the result
- * should be an object and containing properties whose names are mapped to supported verbs and whose values are one or
- * more handlers which are then mounted against that verb.
+ * Responsible for loading routes from a specific structure of modules and mounting them onto the server using a
+ * {@link Mounter}.
  *
  * @public
- * @extends Registrar
+ * @extends Plugin
  */
-class IndexRegistrar extends Registrar {
+class Registrar extends Plugin {
 
   /**
-   * @inheritDoc
-   * @override
+   * Builds the route URL from the <code>file</code> path provided.
+   *
+   * This includes detecting files/directories that represent parameter path variables and inserting the names into the
+   * route URL correctly based on the {@link Mounter}.
+   *
+   * By default, this method simply concatenates the <code>file</code> path segments into the URL while dropping the
+   * last path segment.
+   *
+   * @param {string} file - the file path of the module from which the routes are being loaded
+   * @param {routerify~options} options - the options to be used
+   * @return {string} The route URL built from the <code>file</code> path.
+   * @protected
    */
-  static name() {
-    return 'index'
+  buildUrl(file, options) {
+    return file.split(path.sep)
+      .slice(0, -1)
+      .reduce((memo, segment) => {
+        const match = segment.match(options.paramPattern)
+        if (match) {
+          segment = options.mounter.formatParamPath(match[1])
+        }
+
+        return `${memo}/${segment}`
+      }, '')
   }
 
   /**
-   * @inheritDoc
-   * @override
+   * Loads the router(s) from the module at the specified <code>file</code> path.
+   *
+   * @param {string} file - the file path of the module from which the routes are being loaded
+   * @param {routerify~options} options - the options to be used
+   * @return {*} The router loaded from the module at the <code>file</code> path.
+   * @protected
+   */
+  loadRouter(file, options) {
+    return require(path.resolve(options.dir, file))
+  }
+
+  /**
+   * Loads routes from the module at the specified <code>file</code> path and then mounts them onto the server.
+   *
+   * @param {string} file - the file path of the module from which the routes are to be loaded
+   * @param {routerify~options} options - the options to be used
+   * @return {void}
+   * @public
+   * @abstract
    */
   register(file, options) {
-    const name = path.basename(file, options.ext)
-    if (name !== 'index') {
-      return
-    }
-
-    const router = this.loadRouter(file, options)
-    const url = this.buildUrl(file, options)
-
-    options.verbs.forEach((verb) => {
-      const handlers = router[verb]
-      if (handlers) {
-        this.mounter.mount(url, verb, handlers, options)
-      }
-    })
+    Utilities.abstracted(Registrar, 'register')
   }
 
 }
 
-module.exports = IndexRegistrar
+module.exports = Registrar

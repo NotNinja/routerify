@@ -13,6 +13,7 @@
 [Routerify](https://github.com/Skelp/routerify) is an opinionated router loader for Express-like applications.
 
 [![Build](https://img.shields.io/travis/Skelp/routerify/develop.svg?style=flat-square)](https://travis-ci.org/Skelp/routerify)
+[![Coverage](https://img.shields.io/coveralls/Skelp/routerify/develop.svg?style=flat-square)](https://coveralls.io/github/Skelp/routerify)
 [![Dependencies](https://img.shields.io/david/Skelp/routerify.svg?style=flat-square)](https://david-dm.org/Skelp/routerify)
 [![Dev Dependencies](https://img.shields.io/david/dev/Skelp/routerify.svg?style=flat-square)](https://david-dm.org/Skelp/routerify#info=devDependencies)
 [![License](https://img.shields.io/npm/l/routerify.svg?style=flat-square)](https://github.com/Skelp/routerify/blob/master/LICENSE.md)
@@ -35,9 +36,9 @@ You'll need to have at least [Node.js](https://nodejs.org) 6 or newer.
 
 ## Configurations
 
-Routerify is opinionated. Routerify is also configurable and extensible. The two core concepts that Routerify has are
-*Registrars* and *Mounters*. Through these, Routerify can be configured to load routes from modules in any pattern and
-mount them onto any server.
+Routerify is opinionated. Routerify is also configurable and extensible via plugins. The two core plugin types that
+Routerify has are *Registrars* and *Mounters*. Through these, Routerify can be configured to load routes from modules in
+any pattern and mount them onto any server.
  
 ### Registrars
 
@@ -49,45 +50,10 @@ you can simply [create your own](#create-your-own-registrar) and, optionally,
 [create a pull request](https://github.com/Skelp/routerify/compare) to share it with everyone, provided our opinions
 match :) If not, you can always release it as a plugin.
 
-#### `VerbRegistrar`
-
-**Name:** `"verb"`  
-**Default:** Yes  
-**How it works:**
-
-It expects the following file structure under the target directory:
-
-```
-- /
-  - users/
-    - _userId/
-      - sessions/
-        - get.js
-      - del.js
-      - get.js
-      - put.js
-    - get.js
-    - helper.js
-    - post.js
-```
-
-Only files whose base name matches that of a supported verb will be loaded (e.g. `helper.js` in the above example would
-be ignored) and it expects each one of those modules to export either a single handler method or an array of handler
-methods. 
-
-In the example above, the following routes would be registered:
-
-* `GET /users`
-* `POST /users`
-* `DELETE /users/:userId`
-* `GET /users/:userId`
-* `PUT /users/:userId`
-* `GET /users/:userId/sessions`
-
 #### `IndexRegistrar`
 
 **Name:** `"index"`  
-**Default:** No  
+**Default:** Yes  
 **How it works:**
 
 It expects the following file structure under the target directory:
@@ -136,17 +102,52 @@ following routes would be registered:
 
 The `fetchUser` method is ignored because it does not match a supported verb.
 
+#### `VerbRegistrar`
+
+**Name:** `"verb"`  
+**Default:** No  
+**How it works:**
+
+It expects the following file structure under the target directory:
+
+```
+- /
+  - users/
+    - _userId/
+      - sessions/
+        - get.js
+      - del.js
+      - get.js
+      - put.js
+    - get.js
+    - helper.js
+    - post.js
+```
+
+Only files whose base name matches that of a supported verb will be loaded (e.g. `helper.js` in the above example would
+be ignored) and it expects each one of those modules to export either a single handler method or an array of handler
+methods. 
+
+In the example above, the following routes would be registered:
+
+* `GET /users`
+* `POST /users`
+* `DELETE /users/:userId`
+* `GET /users/:userId`
+* `PUT /users/:userId`
+* `GET /users/:userId/sessions`
+
 #### Create your own Registrar
 
 In order to create your own registrar you simply need to extend the `Registrar` class and tell Routerify about it:
 
 ``` javascript
 const routerify = require('routerify')
-const Registrar = require('routerify/src/registrar/registrar')
+const Registrar = require('routerify/src/registrar')
 
 class CustomRegistrar extends Registrar {
 
-  static name() {
+  getPluginName() {
     return 'custom'
   }
   
@@ -156,7 +157,7 @@ class CustomRegistrar extends Registrar {
   }
 }
 
-routerify.registrars[CustomRegistrar.name()] = CustomRegistrar
+routerify.use(new CustomRegistrar())
 
 module.exports = CustomRegistrar
 ```
@@ -212,13 +213,9 @@ In order to create your own mounter you simply need to extend the `Mounter` clas
 
 ``` javascript
 const routerify = require('routerify')
-const Mounter = require('routerify/src/mounter/mounter')
+const Mounter = require('routerify/src/mounter')
 
 class CustomMounter extends Mounter {
-
-  static name() {
-    return 'custom'
-  }
   
   formatParamPath(param) {
     // Format param for insertion into the route URL
@@ -230,13 +227,17 @@ class CustomMounter extends Mounter {
     return [...]
   }
 
+  getPluginName() {
+    return 'custom'
+  }
+
   mount(url, verb, handlers, options) {
     // Mount the route onto options.server
     ...
   }
 }
 
-routerify.mounters[CustomMounter.name()] = CustomMounter
+routerify.use(new CustomMounter())
 
 module.exports = CustomMounter
 ```
@@ -283,38 +284,47 @@ app.listen(3000, () => {
 
 The following options can be passed to Routerify:
 
-| Option         | Description                                                                                                                                    | Default Value                |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
-| `dir`          | The directory containing the routes to be loaded.                                                                                              | `process.cwd()`              |
-| `ext`          | The extension of the source files to be loaded.                                                                                                | `".js"`                      |
-| `glob`         | Any options to be passed to the `glob` module when searching for source files within `dir`.                                                    | `{}`                         |
-| `mounter`      | The name (or constructor) of the `Mounter` to be used to mount the discovered routes on to the `server`.                                       | `"express"`                  |
-| `paramPattern` | The regular expression to be used to match path parameter variables.                                                                           | `/^_(.+)/`                   |
-| `registrar`    | The name (or constructor) of the `Registrar` used to load routes from source files in a given structure and then mount them via the `mounter`. | `"verb"`                     |
-| `server`       | The server object (e.g. `express()`) to which the routes are to be mounted.                                                                    | N/A                          |
-| `verbs`        | The verbs (corresponding to HTTP methods) to be supported. Defaults to those provided by the `mounter` if not specified.                       | `mounter.getDefaultValues()` |
+| Option         | Description                                                                                                                   | Default Value                |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| `dir`          | The directory containing the routes to be loaded.                                                                             | `process.cwd()`              |
+| `ext`          | The extension of the source files to be loaded.                                                                               | `".js"`                      |
+| `glob`         | Any options to be passed to the `glob` module when searching for source files within `dir`.                                   | `{}`                         |
+| `mounter`      | The name of the `Mounter` to be used to mount the discovered routes on to the `server`.                                       | `"express"`                  |
+| `paramPattern` | The regular expression to be used to match path parameter variables.                                                          | `/^_(.+)/`                   |
+| `registrar`    | The name of the `Registrar` used to load routes from source files in a given structure and then mount them via the `mounter`. | `"index"`                    |
+| `server`       | The server object (e.g. `express()`) to which the routes are to be mounted.                                                   | N/A                          |
+| `verbs`        | The verbs (corresponding to HTTP methods) to be supported. Defaults to those provided by the `mounter` if not specified.      | `mounter.getDefaultValues()` |
 
 Only the `server` option is required. All others have defaults.
 
-### `routerify.mounters`
+### `routerify.lookup(type[, name])`
 
-A mapping of available [mounters](#mounters) where the key is the mounter name and the value is its constructor. This is
-primarily intended for those looking to create their own mounter and hook it into Routerify.
-
-``` javascript
-routerify.mounters
-=> { express: ExpressMounter, restify: RestifyMounter }
-```
-
-### `routerify.registrars`
-
-A mapping of available [registrars](#registrars) where the key is the registrar name and the value is its constructor.
-This is primarily intended for those looking to create their own registrar and hook it into Routerify.
+This method is primarily intended for internal use and provides a means of looking up register `Plugin` instances of a
+given `type`. If no `name` is provided, it will return all instances that inherit from `type`. Otherwise, this method
+will return the first instance that inherits from `type` that has the given `name` and will throw an error if no
+matching plugin could be found.
 
 ``` javascript
-routerify.registrars
-=> { index: IndexRegistrar, verb: VerbRegistrar }
+const Plugin = require('routerify/src/plugin')
+const Registrar = require('routerify/src/registrar')
+
+routerify.lookup(Plugin)
+=> [ ExpressMounter {}, RestifyMounter {}, IndexRegistrar {}, VerbRegistrar {} ]
+routerify.lookup(Registrar)
+=> [ IndexRegistrar {}, VerbRegistrar {} ]
+routerify.lookup(Registrar, 'verb')
+=> VerbRegistrar {}
+routerify.lookup(Registrar, 'foo')
+=> throws Error
 ```
+
+### `routerify.use(plugin)`
+
+Routerify can be configured via the use of plugins, which can be registered by this method. It takes a given instance of
+`Plugin`.
+
+The previous examples for creating your own [mounters](#create-your-own-mounter) and
+[registrars](#create-your-own-registrar) cover how to use this method.
 
 ### `routerify.version`
 
@@ -322,7 +332,7 @@ The current version of Routerify.
 
 ``` javascript
 routerify.version
-=> "0.1.0"
+=> "0.2.0"
 ```
 
 ## Bugs

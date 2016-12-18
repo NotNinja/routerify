@@ -22,50 +22,6 @@
 
 'use strict'
 
-const Mounter = require('./mounter')
+function ignorePost(req, res, next) {}
 
-/**
- * An implementation of {@link Mounter} that is intended to be used for Express applications.
- *
- * @public
- * @extends Mounter
- */
-class ExpressMounter extends Mounter {
-
-  /**
-   * @override
-   * @inheritDoc
-   */
-  static name() {
-    return 'express'
-  }
-
-  /**
-   * @override
-   * @inheritDoc
-   */
-  formatParamPath(param) {
-    return `:${param}`
-  }
-
-  /**
-   * @override
-   * @inheritDoc
-   */
-  getDefaultVerbs() {
-    return [ 'del', 'get', 'head', 'opts', 'patch', 'post', 'put' ]
-  }
-
-  /**
-   * @override
-   * @inheritDoc
-   */
-  mount(url, verb, handlers, options) {
-    handlers = Array.isArray(handlers) ? handlers : [ handlers ]
-
-    options.server[verb](url, ...handlers)
-  }
-
-}
-
-module.exports = ExpressMounter
+module.exports = { post: ignorePost }

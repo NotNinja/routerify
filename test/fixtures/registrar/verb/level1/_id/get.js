@@ -22,27 +22,6 @@
 
 'use strict'
 
-const IndexRegistrar = require('./registrar/index')
-const VerbRegistrar = require('./registrar/verb')
+function level1IdGet(req, res, next) {}
 
-/**
- * A list of available {@link Registrar} constructors.
- *
- * @private
- * @type {Function[]}
- */
-const constructors = [ IndexRegistrar, VerbRegistrar ]
-
-/**
- * A map of {@link Registrar} names to their constructors.
- *
- * @public
- * @type {Object.<string, Function>}
- */
-const registrars = {}
-
-constructors.forEach((Constructor) => {
-  registrars[Constructor.name()] = Constructor
-})
-
-module.exports = registrars
+module.exports = level1IdGet

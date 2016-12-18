@@ -22,27 +22,24 @@
 
 'use strict'
 
-const ExpressMounter = require('./mounter/express')
-const RestifyMounter = require('./mounter/restify')
+const { expect } = require('chai')
 
-/**
- * A list of available {@link Mounter} constructors.
- *
- * @private
- * @type {Function[]}
- */
-const constructors = [ ExpressMounter, RestifyMounter ]
+const Utilities = require('../src/utilities')
 
-/**
- * A map of {@link Mounter} names to their constructors.
- *
- * @public
- * @type {Object.<string, Function>}
- */
-const mounters = {}
+describe('utilities', () => {
+  describe('Utilities', () => {
+    describe('.abstracted', () => {
+      it('should throw an error', () => {
+        class Foo {
 
-constructors.forEach((Constructor) => {
-  mounters[Constructor.name()] = Constructor
+          static bar() {
+            Utilities.abstracted(Foo, 'bar')
+          }
+
+        }
+
+        expect(Foo.bar).to.throw(Error, 'Foo#bar has not been implemented')
+      })
+    })
+  })
 })
-
-module.exports = mounters

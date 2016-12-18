@@ -22,23 +22,16 @@
 
 'use strict'
 
+const Plugin = require('../plugin')
+const Utilities = require('../utilities')
+
 /**
  * Responsible for mounting a route, whose information is provided by a {@link Registrar}, onto the server.
  *
  * @public
+ * @extends Plugin
  */
-class Mounter {
-
-  /**
-   * Returns the name of the {@link Mounter} which can be used to lookup constructors.
-   *
-   * @return {string} The name.
-   * @public
-   * @static
-   * @abstract
-   */
-  static name() {
-  }
+class Mounter extends Plugin {
 
   /**
    * Formats the given <code>param</code> so that it can be inserted into the route URL and interpreted by the server.
@@ -49,6 +42,7 @@ class Mounter {
    * @abstract
    */
   formatParamPath(param) {
+    Utilities.abstracted(Mounter, 'formatParamPath')
   }
 
   /**
@@ -59,6 +53,7 @@ class Mounter {
    * @abstract
    */
   getDefaultVerbs() {
+    Utilities.abstracted(Mounter, 'getDefaultVerbs')
   }
 
   /**
@@ -73,6 +68,7 @@ class Mounter {
    * @abstract
    */
   mount(url, verb, handlers, options) {
+    Utilities.abstracted(Mounter, 'mount')
   }
 
 }
