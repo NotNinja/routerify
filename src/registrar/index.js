@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Alasdair Mercer, Skelp
+ * Copyright (C) 2017 Alasdair Mercer, !ninja
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,12 @@
  * SOFTWARE.
  */
 
-'use strict'
+'use strict';
 
-const path = require('path')
+const path = require('path');
 
-const Plugin = require('../plugin')
-const Utilities = require('../utilities')
+const Plugin = require('../plugin');
+const Utilities = require('../utilities');
 
 /**
  * Responsible for loading routes from a specific structure of modules and mounting them onto the server using a
@@ -54,13 +54,13 @@ class Registrar extends Plugin {
     return file.split(path.sep)
       .slice(0, -1)
       .reduce((memo, segment) => {
-        const match = segment.match(options.paramPattern)
+        const match = segment.match(options.paramPattern);
         if (match) {
-          segment = options.mounter.formatParamPath(match[1])
+          segment = options.mounter.formatParamPath(match[1]);
         }
 
-        return `${memo}/${segment}`
-      }, '')
+        return `${memo}/${segment}`;
+      }, '');
   }
 
   /**
@@ -72,7 +72,7 @@ class Registrar extends Plugin {
    * @protected
    */
   loadRouter(file, options) {
-    return require(path.resolve(options.dir, file))
+    return require(path.resolve(options.dir, file));
   }
 
   /**
@@ -85,9 +85,9 @@ class Registrar extends Plugin {
    * @abstract
    */
   register(file, options) {
-    Utilities.abstracted(Registrar, 'register')
+    Utilities.abstracted(Registrar, 'register');
   }
 
 }
 
-module.exports = Registrar
+module.exports = Registrar;

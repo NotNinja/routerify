@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Alasdair Mercer, Skelp
+ * Copyright (C) 2017 Alasdair Mercer, !ninja
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,65 +20,65 @@
  * SOFTWARE.
  */
 
-'use strict'
+'use strict';
 
-const { expect } = require('chai')
-const sinon = require('sinon')
+const { expect } = require('chai');
+const sinon = require('sinon');
 
-const ExpressMounter = require('../../src/mounter/express-mounter')
+const ExpressMounter = require('../../src/mounter/express-mounter');
 
 describe('mounter/express-mounter', () => {
   describe('ExpressMounter.prototype', () => {
-    let mounter
+    let mounter;
 
     beforeEach(() => {
-      mounter = new ExpressMounter()
-    })
+      mounter = new ExpressMounter();
+    });
 
     describe('.formatParamPath', () => {
       it('should prefix the parameter with a colon', () => {
-        expect(mounter.formatParamPath('foo')).to.equal(':foo')
-      })
-    })
+        expect(mounter.formatParamPath('foo')).to.equal(':foo');
+      });
+    });
 
     describe('.getDefaultVerbs', () => {
       it('should contain all verbs supported by Express', () => {
-        expect(mounter.getDefaultVerbs()).to.eql([ 'del', 'get', 'head', 'opts', 'patch', 'post', 'put' ])
-      })
-    })
+        expect(mounter.getDefaultVerbs()).to.eql([ 'del', 'get', 'head', 'opts', 'patch', 'post', 'put' ]);
+      });
+    });
 
     describe('.getPluginName', () => {
       it('should return correct name', () => {
-        expect(mounter.getPluginName()).to.equal('express')
-      })
-    })
+        expect(mounter.getPluginName()).to.equal('express');
+      });
+    });
 
     describe('.mount', () => {
       context('when a single handler is provided', () => {
         it('should mount the handler onto the server', () => {
-          const url = '/foo'
-          const handler = function a() {}
-          const server = sinon.stub({ get() {} })
+          const url = '/foo';
+          const handler = function handler() {};
+          const server = sinon.stub({ get() {} });
 
-          mounter.mount(url, 'get', handler, { server })
+          mounter.mount(url, 'get', handler, { server });
 
-          expect(server.get.calledOnce).to.be.true
-          expect(server.get.args[0]).to.eql([ url, handler ])
-        })
-      })
+          expect(server.get.calledOnce).to.be.true;
+          expect(server.get.args[0]).to.eql([ url, handler ]);
+        });
+      });
 
       context('when multiple handlers are provided in an array', () => {
         it('should mount all handlers onto the server', () => {
-          const url = '/foo'
-          const handlers = [ function a() {}, function b() {} ]
-          const server = sinon.stub({ get() {} })
+          const url = '/foo';
+          const handlers = [ function a() {}, function b() {} ];
+          const server = sinon.stub({ get() {} });
 
-          mounter.mount(url, 'get', handlers, { server })
+          mounter.mount(url, 'get', handlers, { server });
 
-          expect(server.get.calledOnce).to.be.true
-          expect(server.get.args[0]).to.eql([ url ].concat(handlers))
-        })
-      })
-    })
-  })
-})
+          expect(server.get.calledOnce).to.be.true;
+          expect(server.get.args[0]).to.eql([ url ].concat(handlers));
+        });
+      });
+    });
+  });
+});

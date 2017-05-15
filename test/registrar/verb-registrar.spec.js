@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Alasdair Mercer, Skelp
+ * Copyright (C) 2017 Alasdair Mercer, !ninja
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,31 +20,31 @@
  * SOFTWARE.
  */
 
-'use strict'
+'use strict';
 
-const RegistrarTestCase = require('./registrar-test-case')
-const VerbRegistrar = require('../../src/registrar/verb-registrar')
+const RegistrarTestCase = require('./registrar-test-case');
+const VerbRegistrar = require('../../src/registrar/verb-registrar');
 
 describe('registrar/verb-registrar', () => {
   describe('VerbRegistrar.prototype', () => {
-    let registrar
-    let testCase
+    let registrar;
+    let testCase;
 
     beforeEach(() => {
-      registrar = new VerbRegistrar()
-      testCase = new RegistrarTestCase(registrar, 'verb')
-    })
+      registrar = new VerbRegistrar();
+      testCase = new RegistrarTestCase(registrar, 'verb');
+    });
 
     describe('.getPluginName', () => {
       it('should return correct name', () => {
-        testCase.testGetPluginName()
-      })
-    })
+        testCase.testGetPluginName();
+      });
+    });
 
     describe('.register', () => {
       it('should register verb file-based routes via mounter', () => {
-        testCase.testRegister()
-      })
-    })
-  })
-})
+        testCase.testRegister();
+      });
+    });
+  });
+});

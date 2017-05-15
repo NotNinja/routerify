@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Alasdair Mercer, Skelp
+ * Copyright (C) 2017 Alasdair Mercer, !ninja
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,11 +20,11 @@
  * SOFTWARE.
  */
 
-'use strict'
+'use strict';
 
-const path = require('path')
+const path = require('path');
 
-const Registrar = require('./index')
+const Registrar = require('./index');
 
 /**
  * An implementation of {@link Registrar} where the name of the files in each directory is checked and, if it's a
@@ -41,7 +41,7 @@ class VerbRegistrar extends Registrar {
    * @override
    */
   getPluginName() {
-    return 'verb'
+    return 'verb';
   }
 
   /**
@@ -49,17 +49,17 @@ class VerbRegistrar extends Registrar {
    * @override
    */
   register(file, options) {
-    const name = path.basename(file, options.ext)
+    const name = path.basename(file, options.ext);
     if (!options.verbs.includes(name)) {
-      return
+      return;
     }
 
-    const handlers = this.loadRouter(file, options)
-    const url = this.buildUrl(file, options)
+    const handlers = this.loadRouter(file, options);
+    const url = this.buildUrl(file, options);
 
-    options.mounter.mount(url, name, handlers, options)
+    options.mounter.mount(url, name, handlers, options);
   }
 
 }
 
-module.exports = VerbRegistrar
+module.exports = VerbRegistrar;

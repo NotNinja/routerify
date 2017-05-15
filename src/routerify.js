@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Alasdair Mercer, Skelp
+ * Copyright (C) 2017 Alasdair Mercer, !ninja
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,18 @@
  * SOFTWARE.
  */
 
-'use strict'
+'use strict';
 
-const defaultsDeep = require('lodash.defaultsdeep')
-const glob = require('glob')
+const defaultsDeep = require('lodash.defaultsdeep');
+const glob = require('glob');
 
-const ExpressMounter = require('./mounter/express-mounter')
-const IndexRegistrar = require('./registrar/index-registrar')
-const Mounter = require('./mounter')
-const { version } = require('../package.json')
-const Registrar = require('./registrar')
-const RestifyMounter = require('./mounter/restify-mounter')
-const VerbRegistrar = require('./registrar/verb-registrar')
+const ExpressMounter = require('./mounter/express-mounter');
+const IndexRegistrar = require('./registrar/index-registrar');
+const Mounter = require('./mounter');
+const { version } = require('../package.json');
+const Registrar = require('./registrar');
+const RestifyMounter = require('./mounter/restify-mounter');
+const VerbRegistrar = require('./registrar/verb-registrar');
 
 /**
  * A set containing all registered {@link Plugin} instances.
@@ -39,7 +39,7 @@ const VerbRegistrar = require('./registrar/verb-registrar')
  * @private
  * @type {Set.<Plugin>}
  */
-const plugins = new Set()
+const plugins = new Set();
 
 /**
  * Mounts routes onto a given server by loading modules within a specific directory.
@@ -61,19 +61,19 @@ function routerify(options) {
     registrar: 'index',
     server: null,
     verbs: null
-  })
+  });
 
-  const mounter = options.mounter = routerify.lookup(Mounter, options.mounter)
-  const registrar = options.registrar = routerify.lookup(Registrar, options.registrar)
+  const mounter = options.mounter = routerify.lookup(Mounter, options.mounter);
+  const registrar = options.registrar = routerify.lookup(Registrar, options.registrar);
 
   if (!options.verbs) {
-    options.verbs = mounter.getDefaultVerbs()
+    options.verbs = mounter.getDefaultVerbs();
   }
 
-  const globOptions = Object.assign({ cwd: options.dir }, options.glob)
-  const files = glob.sync(`**/*${options.ext}`, globOptions)
+  const globOptions = Object.assign({ cwd: options.dir }, options.glob);
+  const files = glob.sync(`**/*${options.ext}`, globOptions);
 
-  files.forEach((file) => registrar.register(file, options))
+  files.forEach((file) => registrar.register(file, options));
 }
 
 Object.assign(routerify, {
@@ -97,16 +97,16 @@ Object.assign(routerify, {
   lookup(type, name) {
     if (typeof name === 'undefined') {
       return Array.from(plugins)
-        .filter((plugin) => plugin instanceof type)
+        .filter((plugin) => plugin instanceof type);
     }
 
     const match = Array.from(plugins)
-      .find((plugin) => plugin instanceof type && plugin.getPluginName() === name)
+      .find((plugin) => plugin instanceof type && plugin.getPluginName() === name);
     if (match == null) {
-      throw new Error(`Unable to lookup ${type.name}: ${name}`)
+      throw new Error(`Unable to lookup ${type.name}: ${name}`);
     }
 
-    return match
+    return match;
   },
 
   /**
@@ -121,10 +121,10 @@ Object.assign(routerify, {
    */
   use(plugin) {
     if (plugin) {
-      plugins.add(plugin)
+      plugins.add(plugin);
     }
 
-    return plugin
+    return plugin;
   },
 
   /**
@@ -136,14 +136,14 @@ Object.assign(routerify, {
    */
   version
 
-})
+});
 
-routerify.use(new ExpressMounter())
-routerify.use(new RestifyMounter())
-routerify.use(new IndexRegistrar())
-routerify.use(new VerbRegistrar())
+routerify.use(new ExpressMounter());
+routerify.use(new RestifyMounter());
+routerify.use(new IndexRegistrar());
+routerify.use(new VerbRegistrar());
 
-module.exports = routerify
+module.exports = routerify;
 
 /**
  * The options that can be passed to routerify.

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Alasdair Mercer, Skelp
+ * Copyright (C) 2017 Alasdair Mercer, !ninja
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,9 +20,9 @@
  * SOFTWARE.
  */
 
-'use strict'
+'use strict';
 
-const Utilities = require('./utilities')
+const Utilities = require('./utilities');
 
 /**
  * A plugin can be registered to be used and then looked up later based on the plugin name.
@@ -41,9 +41,9 @@ class Plugin {
    * @abstract
    */
   getPluginName() {
-    Utilities.abstracted(Plugin, 'getPluginName')
+    Utilities.abstracted(Plugin, 'getPluginName');
   }
 
 }
 
-module.exports = Plugin
+module.exports = Plugin;
