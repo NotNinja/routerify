@@ -13,7 +13,7 @@
 [Routerify](https://github.com/NotNinja/routerify) is an opinionated router loader for Express-like applications.
 
 [![Build](https://img.shields.io/travis/NotNinja/routerify/develop.svg?style=flat-square)](https://travis-ci.org/NotNinja/routerify)
-[![Coverage](https://img.shields.io/coveralls/NotNinja/routerify/develop.svg?style=flat-square)](https://coveralls.io/github/NotNinja/routerify)
+[![Coverage](https://img.shields.io/codecov/c/github/NotNinja/routerify/develop.svg?style=flat-square)](https://codecov.io/gh/NotNinja/routerify)
 [![Dependencies](https://img.shields.io/david/NotNinja/routerify.svg?style=flat-square)](https://david-dm.org/NotNinja/routerify)
 [![Dev Dependencies](https://img.shields.io/david/dev/NotNinja/routerify.svg?style=flat-square)](https://david-dm.org/NotNinja/routerify?type=dev)
 [![License](https://img.shields.io/npm/l/routerify.svg?style=flat-square)](https://github.com/NotNinja/routerify/blob/master/LICENSE.md)
