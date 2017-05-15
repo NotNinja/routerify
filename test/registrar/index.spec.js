@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Alasdair Mercer, Skelp
+ * Copyright (C) 2017 Alasdair Mercer, !ninja
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,50 +20,50 @@
  * SOFTWARE.
  */
 
-'use strict'
+'use strict';
 
-const { expect } = require('chai')
-const path = require('path')
-const sinon = require('sinon')
+const { expect } = require('chai');
+const path = require('path');
+const sinon = require('sinon');
 
-const Mounter = require('../../src/mounter')
-const Registrar = require('../../src/registrar')
-const routerify = require('../../src/routerify')
+const Mounter = require('../../src/mounter');
+const Registrar = require('../../src/registrar');
+const routerify = require('../../src/routerify');
 
 describe('registrar/index', () => {
   describe('Registrar.prototype', () => {
-    let mounter
-    let registrar
+    let mounter;
+    let registrar;
 
     beforeEach(() => {
-      mounter = sinon.createStubInstance(Mounter)
-      registrar = new Registrar()
-    })
+      mounter = sinon.createStubInstance(Mounter);
+      registrar = new Registrar();
+    });
 
     describe('.buildUrl', () => {
       it('should build the URL correctly', () => {
-        mounter.formatParamPath.withArgs('id').returns('{id}')
+        mounter.formatParamPath.withArgs('id').returns('{id}');
 
-        const file = path.join('test', 'fixtures', 'registrar', 'verb', 'level1', '_id', 'level2', 'get.js')
+        const file = path.join('test', 'fixtures', 'registrar', 'verb', 'level1', '_id', 'level2', 'get.js');
         const url = registrar.buildUrl(file, {
           mounter,
           paramPattern: /^_(.+)/
-        })
+        });
 
-        expect(url).to.equal('/test/fixtures/registrar/verb/level1/{id}/level2')
-      })
-    })
+        expect(url).to.equal('/test/fixtures/registrar/verb/level1/{id}/level2');
+      });
+    });
 
     describe('.loadRouter', () => {
       it('should load file as module based on "dir" option', () => {
-        expect(registrar.loadRouter('routerify.js', { dir: 'src' })).to.equal(routerify)
-      })
-    })
+        expect(registrar.loadRouter('routerify.js', { dir: 'src' })).to.equal(routerify);
+      });
+    });
 
     describe('.register', () => {
       it('should be abstract', () => {
-        expect(registrar.register.bind(registrar)).to.throw('Registrar#register has not been implemented')
-      })
-    })
-  })
-})
+        expect(registrar.register.bind(registrar)).to.throw('Registrar#register has not been implemented');
+      });
+    });
+  });
+});

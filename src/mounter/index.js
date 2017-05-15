@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Alasdair Mercer, Skelp
+ * Copyright (C) 2017 Alasdair Mercer, !ninja
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,10 +20,10 @@
  * SOFTWARE.
  */
 
-'use strict'
+'use strict';
 
-const Plugin = require('../plugin')
-const Utilities = require('../utilities')
+const Plugin = require('../plugin');
+const Utilities = require('../utilities');
 
 /**
  * Responsible for mounting a route, whose information is provided by a {@link Registrar}, onto the server.
@@ -42,7 +42,7 @@ class Mounter extends Plugin {
    * @abstract
    */
   formatParamPath(param) {
-    Utilities.abstracted(Mounter, 'formatParamPath')
+    Utilities.abstracted(Mounter, 'formatParamPath');
   }
 
   /**
@@ -53,7 +53,7 @@ class Mounter extends Plugin {
    * @abstract
    */
   getDefaultVerbs() {
-    Utilities.abstracted(Mounter, 'getDefaultVerbs')
+    Utilities.abstracted(Mounter, 'getDefaultVerbs');
   }
 
   /**
@@ -68,9 +68,9 @@ class Mounter extends Plugin {
    * @abstract
    */
   mount(url, verb, handlers, options) {
-    Utilities.abstracted(Mounter, 'mount')
+    Utilities.abstracted(Mounter, 'mount');
   }
 
 }
 
-module.exports = Mounter
+module.exports = Mounter;

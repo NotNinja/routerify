@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Alasdair Mercer, Skelp
+ * Copyright (C) 2017 Alasdair Mercer, !ninja
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,31 +20,31 @@
  * SOFTWARE.
  */
 
-'use strict'
+'use strict';
 
-const IndexRegistrar = require('../../src/registrar/index-registrar')
-const RegistrarTestCase = require('./registrar-test-case')
+const IndexRegistrar = require('../../src/registrar/index-registrar');
+const RegistrarTestCase = require('./registrar-test-case');
 
 describe('registrar/index-registrar', () => {
   describe('IndexRegistrar.prototype', () => {
-    let registrar
-    let testCase
+    let registrar;
+    let testCase;
 
     beforeEach(() => {
-      registrar = new IndexRegistrar()
-      testCase = new RegistrarTestCase(registrar, 'index')
-    })
+      registrar = new IndexRegistrar();
+      testCase = new RegistrarTestCase(registrar, 'index');
+    });
 
     describe('.getPluginName', () => {
       it('should return correct name', () => {
-        testCase.testGetPluginName()
-      })
-    })
+        testCase.testGetPluginName();
+      });
+    });
 
     describe('.register', () => {
       it('should register index file-based routes via mounter', () => {
-        testCase.testRegister()
-      })
-    })
-  })
-})
+        testCase.testRegister();
+      });
+    });
+  });
+});

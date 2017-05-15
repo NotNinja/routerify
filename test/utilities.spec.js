@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Alasdair Mercer, Skelp
+ * Copyright (C) 2017 Alasdair Mercer, !ninja
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,11 +20,11 @@
  * SOFTWARE.
  */
 
-'use strict'
+'use strict';
 
-const { expect } = require('chai')
+const { expect } = require('chai');
 
-const Utilities = require('../src/utilities')
+const Utilities = require('../src/utilities');
 
 describe('utilities', () => {
   describe('Utilities', () => {
@@ -33,13 +33,13 @@ describe('utilities', () => {
         class Foo {
 
           static bar() {
-            Utilities.abstracted(Foo, 'bar')
+            Utilities.abstracted(Foo, 'bar');
           }
 
         }
 
-        expect(Foo.bar).to.throw(Error, 'Foo#bar has not been implemented')
-      })
-    })
-  })
-})
+        expect(Foo.bar).to.throw(Error, 'Foo#bar has not been implemented');
+      });
+    });
+  });
+});

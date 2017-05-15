@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Alasdair Mercer, Skelp
+ * Copyright (C) 2017 Alasdair Mercer, !ninja
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,24 +20,24 @@
  * SOFTWARE.
  */
 
-'use strict'
+'use strict';
 
-const { expect } = require('chai')
+const { expect } = require('chai');
 
-const Plugin = require('../src/plugin')
+const Plugin = require('../src/plugin');
 
 describe('plugin', () => {
   describe('Plugin.prototype', () => {
-    let plugin
+    let plugin;
 
     beforeEach(() => {
-      plugin = new Plugin()
-    })
+      plugin = new Plugin();
+    });
 
     describe('.getPluginName', () => {
       it('should be abstract', () => {
-        expect(plugin.getPluginName.bind(plugin)).to.throw('Plugin#getPluginName has not been implemented')
-      })
-    })
-  })
-})
+        expect(plugin.getPluginName.bind(plugin)).to.throw('Plugin#getPluginName has not been implemented');
+      });
+    });
+  });
+});

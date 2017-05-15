@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Alasdair Mercer, Skelp
+ * Copyright (C) 2017 Alasdair Mercer, !ninja
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,9 +20,9 @@
  * SOFTWARE.
  */
 
-'use strict'
+'use strict';
 
-const Mounter = require('./index')
+const Mounter = require('./index');
 
 /**
  * An implementation of {@link Mounter} that is intended to be used for Express applications.
@@ -37,7 +37,7 @@ class ExpressMounter extends Mounter {
    * @inheritDoc
    */
   formatParamPath(param) {
-    return `:${param}`
+    return `:${param}`;
   }
 
   /**
@@ -45,7 +45,7 @@ class ExpressMounter extends Mounter {
    * @inheritDoc
    */
   getDefaultVerbs() {
-    return [ 'del', 'get', 'head', 'opts', 'patch', 'post', 'put' ]
+    return [ 'del', 'get', 'head', 'opts', 'patch', 'post', 'put' ];
   }
 
   /**
@@ -53,7 +53,7 @@ class ExpressMounter extends Mounter {
    * @inheritDoc
    */
   getPluginName() {
-    return 'express'
+    return 'express';
   }
 
   /**
@@ -61,11 +61,11 @@ class ExpressMounter extends Mounter {
    * @inheritDoc
    */
   mount(url, verb, handlers, options) {
-    handlers = Array.isArray(handlers) ? handlers : [ handlers ]
+    handlers = Array.isArray(handlers) ? handlers : [ handlers ];
 
-    options.server[verb](url, ...handlers)
+    options.server[verb](url, ...handlers);
   }
 
 }
 
-module.exports = ExpressMounter
+module.exports = ExpressMounter;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Alasdair Mercer, Skelp
+ * Copyright (C) 2017 Alasdair Mercer, !ninja
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,11 +20,11 @@
  * SOFTWARE.
  */
 
-'use strict'
+'use strict';
 
-const path = require('path')
+const path = require('path');
 
-const Registrar = require('./index')
+const Registrar = require('./index');
 
 /**
  * An implementation of {@link Registrar} where the index files in each directory is loaded as a module and the result
@@ -41,7 +41,7 @@ class IndexRegistrar extends Registrar {
    * @override
    */
   getPluginName() {
-    return 'index'
+    return 'index';
   }
 
   /**
@@ -49,21 +49,21 @@ class IndexRegistrar extends Registrar {
    * @override
    */
   register(file, options) {
-    const name = path.basename(file, options.ext)
+    const name = path.basename(file, options.ext);
     if (name !== 'index') {
-      return
+      return;
     }
 
-    const router = this.loadRouter(file, options)
-    const url = this.buildUrl(file, options)
+    const router = this.loadRouter(file, options);
+    const url = this.buildUrl(file, options);
 
     Object.keys(router)
       .filter(options.verbs.includes.bind(options.verbs))
       .forEach((verb) => {
-        options.mounter.mount(url, verb, router[verb], options)
-      })
+        options.mounter.mount(url, verb, router[verb], options);
+      });
   }
 
 }
 
-module.exports = IndexRegistrar
+module.exports = IndexRegistrar;

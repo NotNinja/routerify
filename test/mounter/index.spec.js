@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Alasdair Mercer, Skelp
+ * Copyright (C) 2017 Alasdair Mercer, !ninja
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,36 +20,36 @@
  * SOFTWARE.
  */
 
-'use strict'
+'use strict';
 
-const { expect } = require('chai')
+const { expect } = require('chai');
 
-const Mounter = require('../../src/mounter')
+const Mounter = require('../../src/mounter');
 
 describe('mounter/index', () => {
   describe('Mounter.prototype', () => {
-    let mounter
+    let mounter;
 
     beforeEach(() => {
-      mounter = new Mounter()
-    })
+      mounter = new Mounter();
+    });
 
     describe('.formatParamPath', () => {
       it('should be abstract', () => {
-        expect(mounter.formatParamPath.bind(mounter)).to.throw('Mounter#formatParamPath has not been implemented')
-      })
-    })
+        expect(mounter.formatParamPath.bind(mounter)).to.throw('Mounter#formatParamPath has not been implemented');
+      });
+    });
 
     describe('.getDefaultVerbs', () => {
       it('should be abstract', () => {
-        expect(mounter.getDefaultVerbs.bind(mounter)).to.throw('Mounter#getDefaultVerbs has not been implemented')
-      })
-    })
+        expect(mounter.getDefaultVerbs.bind(mounter)).to.throw('Mounter#getDefaultVerbs has not been implemented');
+      });
+    });
 
     describe('.mount', () => {
       it('should be abstract', () => {
-        expect(mounter.mount.bind(mounter)).to.throw('Mounter#mount has not been implemented')
-      })
-    })
-  })
-})
+        expect(mounter.mount.bind(mounter)).to.throw('Mounter#mount has not been implemented');
+      });
+    });
+  });
+});

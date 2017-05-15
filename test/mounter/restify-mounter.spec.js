@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Alasdair Mercer, Skelp
+ * Copyright (C) 2017 Alasdair Mercer, !ninja
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,86 +20,86 @@
  * SOFTWARE.
  */
 
-'use strict'
+'use strict';
 
-const { expect } = require('chai')
-const sinon = require('sinon')
+const { expect } = require('chai');
+const sinon = require('sinon');
 
-const RestifyMounter = require('../../src/mounter/restify-mounter')
+const RestifyMounter = require('../../src/mounter/restify-mounter');
 
 describe('mounter/restify-mounter', () => {
   describe('RestifyMounter.prototype', () => {
-    let mounter
+    let mounter;
 
     beforeEach(() => {
-      mounter = new RestifyMounter()
-    })
+      mounter = new RestifyMounter();
+    });
 
     describe('.formatParamPath', () => {
       it('should prefix the parameter with a colon', () => {
-        expect(mounter.formatParamPath('foo')).to.equal(':foo')
-      })
-    })
+        expect(mounter.formatParamPath('foo')).to.equal(':foo');
+      });
+    });
 
     describe('.getDefaultVerbs', () => {
       it('should contain all verbs supported by Restify', () => {
-        expect(mounter.getDefaultVerbs()).to.eql([ 'del', 'get', 'head', 'opts', 'patch', 'post', 'put' ])
-      })
-    })
+        expect(mounter.getDefaultVerbs()).to.eql([ 'del', 'get', 'head', 'opts', 'patch', 'post', 'put' ]);
+      });
+    });
 
     describe('.getPluginName', () => {
       it('should return correct name', () => {
-        expect(mounter.getPluginName()).to.equal('restify')
-      })
-    })
+        expect(mounter.getPluginName()).to.equal('restify');
+      });
+    });
 
     describe('.mount', () => {
       context('when a single handler is provided', () => {
         it('should mount the handler onto the server', () => {
-          const url = '/foo'
-          const handler = function a() {}
-          const server = sinon.stub({ get() {} })
+          const url = '/foo';
+          const handler = function handler() {};
+          const server = sinon.stub({ get() {} });
 
-          mounter.mount(url, 'get', handler, { server })
+          mounter.mount(url, 'get', handler, { server });
 
-          expect(server.get.calledOnce).to.be.true
-          expect(server.get.args[0]).to.eql([ url, handler ])
-        })
-      })
+          expect(server.get.calledOnce).to.be.true;
+          expect(server.get.args[0]).to.eql([ url, handler ]);
+        });
+      });
 
       context('when multiple handlers are provided in an array', () => {
         it('should mount all handlers onto the server', () => {
-          const url = '/foo'
-          const handlers = [ function a() {}, function b() {} ]
-          const server = sinon.stub({ get() {} })
+          const url = '/foo';
+          const handlers = [ function a() {}, function b() {} ];
+          const server = sinon.stub({ get() {} });
 
-          mounter.mount(url, 'get', handlers, { server })
+          mounter.mount(url, 'get', handlers, { server });
 
-          expect(server.get.calledOnce).to.be.true
-          expect(server.get.args[0]).to.eql([ url ].concat(handlers))
-        })
-      })
+          expect(server.get.calledOnce).to.be.true;
+          expect(server.get.args[0]).to.eql([ url ].concat(handlers));
+        });
+      });
 
       context('when any handler has a options attached', () => {
         it('should mount the handlers to the server with those options', () => {
-          const url = '/foo'
-          const verb = 'get'
-          const handlers = [ function a() {}, function b() {} ]
-          const server = sinon.stub({ get() {} })
-          const version = '1.0.0'
+          const url = '/foo';
+          const verb = 'get';
+          const handlers = [ function a() {}, function b() {} ];
+          const server = sinon.stub({ get() {} });
+          const version = '1.0.0';
 
-          handlers[0].options = { version }
+          handlers[0].options = { version };
 
-          mounter.mount(url, verb, handlers, { server })
+          mounter.mount(url, verb, handlers, { server });
 
-          expect(server.get.calledOnce).to.be.true
+          expect(server.get.calledOnce).to.be.true;
           expect(server.get.args[0]).to.eql([ {
             method: verb,
             path: url,
             version
-          } ].concat(handlers))
-        })
-      })
-    })
-  })
-})
+          } ].concat(handlers));
+        });
+      });
+    });
+  });
+});

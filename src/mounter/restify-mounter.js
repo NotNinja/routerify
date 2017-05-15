@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Alasdair Mercer, Skelp
+ * Copyright (C) 2017 Alasdair Mercer, !ninja
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,9 +20,9 @@
  * SOFTWARE.
  */
 
-'use strict'
+'use strict';
 
-const ExpressMounter = require('./express-mounter')
+const ExpressMounter = require('./express-mounter');
 
 /**
  * An extension of {@link ExpressMounter} which provides further compatibility with Restify by reading
@@ -42,7 +42,7 @@ class RestifyMounter extends ExpressMounter {
    * @inheritDoc
    */
   getPluginName() {
-    return 'restify'
+    return 'restify';
   }
 
   /**
@@ -50,19 +50,19 @@ class RestifyMounter extends ExpressMounter {
    * @inheritDoc
    */
   mount(url, verb, handlers, options) {
-    handlers = Array.isArray(handlers) ? handlers : [ handlers ]
+    handlers = Array.isArray(handlers) ? handlers : [ handlers ];
 
-    const handlerWithOptions = handlers.find((handler) => handler.options != null)
+    const handlerWithOptions = handlers.find((handler) => handler.options != null);
     if (handlerWithOptions) {
       url = Object.assign({}, handlerWithOptions.options, {
         method: verb,
         path: url
-      })
+      });
     }
 
-    super.mount(url, verb, handlers, options)
+    super.mount(url, verb, handlers, options);
   }
 
 }
 
-module.exports = RestifyMounter
+module.exports = RestifyMounter;
