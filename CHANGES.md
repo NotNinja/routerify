@@ -1,3 +1,8 @@
+## Version 0.3.0, 2017.05.16
+
+* Move to !ninja [#9](https://github.com/NotNinja/routerify/issues/9)
+* Switch to Codecov for code coverage [#10](https://github.com/NotNinja/routerify/issues/10)
+
 ## Version 0.2.0, 2016.12.18
 
 * Add unit tests [#3](https://github.com/NotNinja/routerify/issues/3)

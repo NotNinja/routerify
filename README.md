@@ -333,7 +333,7 @@ The current version of Routerify.
 
 ``` javascript
 routerify.version
-=> "0.2.0"
+=> "0.3.0"
 ```
 
 ## Bugs
